@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"io"
+	"text/scanner"
 
 	"github.com/jingweno/ccat/Godeps/_workspace/src/github.com/sourcegraph/syntaxhighlight"
 )
@@ -39,14 +40,24 @@ var DarkColorDefs = ColorDefs{
 	syntaxhighlight.Decimal:       "blue",
 }
 
-func AsCCat(src []byte, cdefs ColorDefs) ([]byte, error) {
+func AsCCat(r io.Reader, cdefs ColorDefs) ([]byte, error) {
 	var buf bytes.Buffer
-	err := syntaxhighlight.Print(syntaxhighlight.NewScanner(src), &buf, Printer{cdefs})
+	err := syntaxhighlight.Print(newScanner(r), &buf, Printer{cdefs})
 	if err != nil {
 		return nil, err
 	}
 
 	return buf.Bytes(), nil
+}
+
+func newScanner(r io.Reader) *scanner.Scanner {
+	var s scanner.Scanner
+	s.Init(r)
+	s.Error = func(_ *scanner.Scanner, _ string) {}
+	s.Whitespace = 0
+	s.Mode = s.Mode ^ scanner.SkipComments
+
+	return &s
 }
 
 type Printer struct {

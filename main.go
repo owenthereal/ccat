@@ -3,7 +3,6 @@ package main
 import (
 	"bufio"
 	"io"
-	"io/ioutil"
 	"log"
 	"os"
 
@@ -67,12 +66,7 @@ func ccat(file string, colorDefs ColorDefs) error {
 		reader = f
 	}
 
-	input, err := ioutil.ReadAll(reader)
-	if err != nil {
-		return err
-	}
-
-	content, err := AsCCat(input, colorDefs)
+	content, err := AsCCat(reader, colorDefs)
 	if err != nil {
 		return err
 	}
