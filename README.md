@@ -51,9 +51,11 @@ $ ccat # read from standard input
 
 ![demo](https://dl.dropboxusercontent.com/u/1079131/ccat.gif)
 
-## Credits
+## Roadmap
 
-Thanks to [Sourcegraph](https://github.com/sourcegraph) who built [this](https://github.com/sourcegraph/syntaxhighlight) awesome syntax-highlighting package.
+- [ ] nicer default color scheme
+- [ ] customizable color scheme
+- [ ] ?
 
 ## FAQ
 
@@ -71,3 +73,7 @@ $ ccat FILE1
 ## License
 
 [MIT](https://github.com/jingweno/ccat/blob/master/LICENSE)
+
+## Credits
+
+Thanks to [Sourcegraph](https://github.com/sourcegraph) who built [this](https://github.com/sourcegraph/syntaxhighlight) awesome syntax-highlighting package.
