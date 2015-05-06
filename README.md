@@ -18,10 +18,10 @@ Reference: [jingweno/homebrew-ccat](https://github.com/jingweno/homebrew-ccat)
 Prerequisites:
 - [Git](http://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 - [Mercurial](http://mercurial.selenic.com/)
-- [Go](https://golang.org/doc/install)
+- [Go](https://golang.org/doc/install) 1.4+
 
 ```
-$ go get github.com/jingweno/ccat
+$ go get -u github.com/jingweno/ccat
 ```
 
 # Examples
