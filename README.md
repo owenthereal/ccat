@@ -16,7 +16,7 @@ Reference: [jingweno/homebrew-ccat](https://github.com/jingweno/homebrew-ccat)
 ## From source
 
 ```
-$ go install github.com/jingweno/ccat
+$ go get github.com/jingweno/ccat
 ```
 
 # Examples
