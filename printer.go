@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"io"
 
-	"github.com/sourcegraph/syntaxhighlight"
+	"github.com/jingweno/ccat/Godeps/_workspace/src/github.com/sourcegraph/syntaxhighlight"
 )
 
 type ColorDefs map[syntaxhighlight.Kind]string

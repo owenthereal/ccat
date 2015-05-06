@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="182.60001"
+   height="161.2"
+   id="svg4579"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="languages.svg">
+  <defs
+     id="defs4581" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.979899"
+     inkscape:cx="113.35545"
+     inkscape:cy="90.854413"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     fit-margin-top="5"
+     fit-margin-left="5"
+     fit-margin-right="5"
+     fit-margin-bottom="5"
+     inkscape:window-width="1147"
+     inkscape:window-height="717"
+     inkscape:window-x="3052"
+     inkscape:window-y="583"
+     inkscape:window-maximized="0" />
+  <metadata
+     id="metadata4584">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-466.341,-372.30727)">
+    <g
+       transform="translate(4526.641,-509.39273)"
+       id="g4499">
+      <polygon
+         points="-3914.4,985 -3970.1,1011.7 -4023.3,989.5 -4055.3,1002.5 -3970.5,1037.9 -3882.7,995.8 "
+         id="polygon4501" />
+      <polygon
+         points="-3970.5,960.3 -3882.7,918.2 -3965.7,886.7 -4055.3,924.9 "
+         id="polygon4503" />
+      <polygon
+         points="-3916.4,946.3 -3970.1,972.1 -4021.3,950.8 -4055.3,964.5 -3970.5,999.9 -3882.7,957.8 "
+         id="polygon4505" />
+    </g>
+  </g>
+</svg>

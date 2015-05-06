@@ -2,9 +2,18 @@
 
 `ccat` is the colorizing `cat`. It works similar to `cat` but displays content with syntax highlighting.
 
-# Installation
+## Supported Languages
 
-## OSX
+* JavaScript
+* Java
+* Ruby
+* Python
+* Go
+* C
+
+## Installation
+
+### OSX
 
 ```
 $ brew tap jingweno/ccat
@@ -13,23 +22,31 @@ $ brew install ccat
 
 Reference: [jingweno/homebrew-ccat](https://github.com/jingweno/homebrew-ccat)
 
-## From source
+### From source
+
+Prerequisites:
+- [Git](http://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+- [Go](https://golang.org/doc/install) 1.4+
 
 ```
-$ go install github.com/jingweno/ccat
+$ go get -u github.com/jingweno/ccat
 ```
 
-# Examples
+## Examples
 
 ```
 $ ccat FILE1 FILE2 ...
 $ ccat # read from standard input
 ```
 
-# Demo
+## Demo
 
 ![demo](https://dl.dropboxusercontent.com/u/1079131/ccat.gif)
 
-# Credits
+## Credits
 
 Thanks to [Sourcegraph](https://github.com/sourcegraph) who built [this](https://github.com/sourcegraph/syntaxhighlight) awesome syntax-highlighting package.
+
+## License
+
+[MIT](https://github.com/jingweno/ccat/blob/master/LICENSE)

@@ -1,0 +1,436 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="home">
+
+<div class="banner section">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-7">
+        <h1><img alt="srclib symbol" src="../images/srclib_symbol.svg" height=47 width=47 style="margin-left:-8px"/> <strong>srclib</strong> is a hackable, multi-language code analysis library for building better software tools.</h1>
+        <p>srclib makes developer tools like editor plugins and code search
+        better. It supports things like <strong>jump to
+        definition</strong>, <strong>find usages</strong>, <strong>type
+        inference</strong>, and <strong>documentation generation</strong>.
+        <p>srclib consists of <strong><a href="/toolchains/overview">language analysis toolchains</a></strong> (currently for Go,
+        Python, JavaScript, and Ruby) with a <strong><a href="/api/data-model">common output format</a></strong>, and developer
+        tools that consume this format.
+
+        <p>srclib originated inside <a target="_blank" href="https://sourcegraph.com">&#x2731; Sourcegraph</a>, where it powers intelligent code search over hundreds of thousands of projects.
+
+        <p>
+
+        {% include "newsletter2.html" %}
+
+        <p><p>
+        <a class="button-link"
+        href="#install"><button type="button" class="btn
+        btn-default"><i class="fa fa-download"></i> Try it now</button></a>
+        <a class="button-link" href="/overview">
+          <button type="button" class="btn btn-default"><i class="fa fa-book"></i> Docs</button>
+        </a>
+        <a class="button-link" target="_blank"
+           href="https://sourcegraph.com/sourcegraph/srclib">
+          <button type="button" class="btn btn-default">&#x2731; Sourcegraph</button>
+        </a>
+        <a class="button-link" target="_blank" href="https://github.com/sourcegraph/srclib"><button type="button" class="btn btn-default"><i class="fa fa-github"></i> GitHub</button></a>
+      </div>
+      <div class="col-sm-5" style="text-align:center;">
+        <br>
+        <iframe width="420" height="315" src="//www.youtube.com/embed/BNF5yNIWkho" frameborder="0" allowfullscreen class="float:right;"></iframe><br>
+      </div>
+
+    </div>
+    <p>
+
+
+  </div>
+</div>
+
+<div id="install" class="editor-plugins section">
+  <div class="container">
+
+    <div class="row">
+      <div class="col-sm-12">
+        <h1>Installation</h1>
+        <p>To install srclib and use it in your editor, follow these steps.</p>
+
+        <h2>1. Install <tt>src</tt></h2>
+        <p>
+          The <tt>src</tt> command-line tool is the interface to srclib.
+        </p>
+
+        <ul>
+          <li>Binaries: <a href="https://api.equinox.io/1/Applications/ap_BQxVz1iWMxmjQnbVGd85V58qz6/Updates/Asset/src.zip?os=linux&arch=amd64&channel=stable">Linux amd64</a>, <a href="https://api.equinox.io/1/Applications/ap_BQxVz1iWMxmjQnbVGd85V58qz6/Updates/Asset/src.zip?os=linux&arch=386&channel=stable">Linux i386</a>, <a href="https://api.equinox.io/1/Applications/ap_BQxVz1iWMxmjQnbVGd85V58qz6/Updates/Asset/src.zip?os=darwin&arch=amd64&channel=stable">Mac OS X</a> (unzip and place the <tt>src</tt> program in your <tt>$PATH</tt>)</li>
+          <li>Or <a href="/gettingstarted/#building-from-source">build from source</a>: <code>go get -u -v sourcegraph.com/sourcegraph/srclib/cmd/src</code></li>
+        </ul>
+
+
+        <h2>2. Install toolchains</h2>
+        <p>Toolchains add support for languages (JavaScript, Ruby, Go, etc.).</p>
+        <p><a href="/gettingstarted">Install the standard set of toolchains</a>: <code>src toolchain install-std</code></p>
+        <p>You can skip languages you don't want by adding, e.g., <code>--skip ruby</code>.</p>
+        <p>To list installed toolchains, run <code>src toolchain list</code>.</p>
+
+        <h2>3. Install an editor plugin</h2>
+        <p>Install a srclib editor plugin, which provides doc lookups, find-usages, and type information with zero
+        configuration needed (in most cases).
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <p>
+        <a href="/plugins/emacs"><button class="btn btn-primary"><img style="height: 1em;" src="/images/editors/emacs.svg"> Emacs</button></a>
+        <a href="/plugins/sublimetext"><button class="btn btn-primary"><img style="height: 1em;" src="/images/editors/sublime.png"> Sublime</button></a>
+        <a href="/plugins/atom"><button class="btn btn-primary"><img style="height: 1em;" style="height: 1em;" src="/images/editors/atom.png"> Atom</button></a>
+        <button data-toggle="popover" data-placement="top" data-content="Vim support is not yet implemented" type="button" class="btn btn-default btn-disabled">
+          <img class="desaturate" style="height: 1em;" src="/images/editors/vim.svg"> Vim
+        </button>
+
+
+<!-- <button type="button" class="btn btn-lg btn-danger" data-toggle="popover" -->
+<!--         title="Popover title" data-content="And here's some amazing content. -->
+<!--         It's very engaging. Right?">Click to toggle popover</button> -->
+
+
+          <!-- <img data-toggle="popover" data-placement="bottom" -->
+          <!--      data-content="Emacs support is still WIP, but supports basic jump to definition and example searching." -->
+          <!--      class="editoricon  desaturatehalf" src="/images/editors/emacs.svg"></img> -->
+
+        <p>
+
+        <p>Interested in building a plugin for an editor srclib doesn't yet
+        support? <a target="_blank" href="https://twitter.com/srclib">Let us
+        know</a>&mdash;we'd love to help!
+
+      </div>
+    </div>
+
+    <!-- <div class="row"> --
+    <!--   <div class="col-xs-3"> -->
+    <!--     <a href="/plugins/emacs/"> -->
+    <!--       <img data-toggle="popover" data-placement="bottom" -->
+    <!--            data-content="Emacs support is still WIP, but supports basic jump to definition and example searching." -->
+    <!--            class="editoricon  desaturatehalf" src="/images/editors/emacs.svg"></img> -->
+    <!--     </a> -->
+    <!--   </div> -->
+    <!--   <div class="col-xs-3"> -->
+    <!--     <a> -->
+    <!--       <img data-toggle="popover" data-placement="bottom" -->
+    <!--            data-content="Atom support has not been implemented." -->
+    <!--            class="editoricon desaturate" src="/images/editors/atom.png"></img> -->
+    <!--     </a> -->
+    <!--   </div> -->
+    <!--   <div class="col-xs-3"> -->
+    <!--     <a> -->
+    <!--       <img data-toggle="popover" data-placement="bottom" -->
+    <!--            data-content="Sublime Text support has not been implemented." -->
+    <!--            class="editoricon desaturate" src="/images/editors/sublime.png"></img> -->
+    <!--     </a> -->
+    <!--   </div> -->
+    <!--   <div class="col-xs-3"> -->
+    <!--     <a> -->
+    <!--       <img data-toggle="popover" data-placement="bottom" -->
+    <!--            data-content="Vim support has not been implmented yet." -->
+    <!--            class="editoricon desaturate" src="/images/editors/vim.svg"></img> -->
+    <!--     </a> -->
+    <!--   </div> -->
+    <!--   <br> -->
+    <!-- </div> -->
+
+
+
+  </div>
+</div>
+
+<div class="challenge section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <br>
+        <table class="table table-bordered editor-lang-grid">
+          <tr>
+            <th></th>
+            <th>Python</th>
+            <th>Ruby&nbsp;&nbsp;</th>
+            <th>JS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+            <th>Go&nbsp;&nbsp;&nbsp;&nbsp;</th>
+            <th>Java&nbsp;&nbsp;</th>
+            <th>C++&nbsp;&nbsp;&nbsp;</th>
+            <th>...</th>
+          </tr>
+          <tr>
+            <th>Emacs</th>
+            <th></th><th></th><th></th><th></th><th></th><th></th><th></th>
+          </tr>
+          <tr>
+            <th>Vim</th>
+            <th></th><th></th><th></th><th></th><th></th><th></th><th></th>
+          </tr>
+          <tr>
+            <th>Sublime</th>
+            <th></th><th></th><th></th><th></th><th></th><th></th><th></th>
+          </tr>
+          <tr>
+            <th>Atom</th>
+            <th></th><th></th><th></th><th></th><th></th><th></th><th></th>
+          </tr>
+          <tr>
+            <th>Eclipse</th>
+            <th></th><th></th><th></th><th></th><th></th><th></th><th></th>
+          </tr>
+          <tr>
+            <th>...</th>
+            <th></th><th></th><th></th><th></th><th></th><th></th><th></th>
+          </tr>
+        </table>
+      </div>
+      <div class="col-md-6">
+        <h1>The Problem</h1>
+
+        <p>
+        Right now, most people write code in editors that don't give them as
+        much programming assistance as is possible. That's because creating an
+        editor plugin and language analyzer for your favorite language and
+        editor combo is a lot of work. And when you're done, your plugin only
+        supports a single language and editor, and maybe only half the features
+        you wanted.
+
+        <p>
+        Because there are no standard cross-language and cross-editor APIs and
+        data formats, it is difficult to reuse your plugin for other languages
+        or editors. So if there are M languages and N editors, we need to build
+        M &times; N different plugins. That number gets large quickly, and so we
+        suffer from poor developer tools.
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="solution section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-7">
+        <h1>The Solution</h1>
+
+        <p>
+        srclib takes care of the code analysis that underlies key assistive
+        features such as finding usages and jumping to definitions. It exposes a
+        command-line API and outputs data in a well
+        defined, <strong>language-independent</strong> format.
+
+        <p>
+        A plugin (or other tool) built on srclib just has to consume this data
+        format to support all languages that srclib supports. srclib is designed
+        to be modular and extensible. New languages can be added by implementing
+        language toolchains that output the srclib format.
+
+        <p>
+        srclib handles:
+        <ul>
+          <li>package detection,</li>
+          <li>global dependency resolution,</li>
+          <li>type inference,</li>
+          <li>querying the graph of definitions and references in code,</li>
+          <li>versioning using different VCS systems, and</li>
+          <li>semantic blaming</li>
+        </ul>
+        in a way that is:
+        <p>
+        <ul>
+          <li>language-independent,</li>
+          <li>flexible,</li>
+          <li>extensible, and</li>
+          <li>configuration-free.</li>
+        </ul>
+
+      </div>
+      <div class="col-md-5">
+        <br><br><br>
+        <table class="table table-bordered" style="text-align: center;">
+          <tr class="tall">
+            <td>Sublime</td>
+            <td>Vim</td>
+            <td>Emacs</td>
+            <td>Atom</td>
+            <td>Eclipse</td>
+            <td colspan="2">...</td>
+          </tr>
+          <tr class="tall">
+            <td colspan="7" style="font-weight: bold; font-size: 1.2em;">srclib</td>
+          </tr>
+          <tr class="tall">
+            <td>Python</td>
+            <td>Ruby</td>
+            <td>JS</td>
+            <td>Go</td>
+            <td>Java</td>
+            <td>C++</td>
+            <td>...</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="features section"> -->
+<!--   <div class="container"> -->
+<!--     <div style="text-align: center;" class="row"> -->
+<!--       <h1>Using srclib</h1><br> -->
+<!--     </div> -->
+<!--     <\!-- <div class="row"> -\-> -->
+<!--     <\!--   <div id="left" class="col-sm-6"> -\-> -->
+<!--     <\!--     <img src="/images/features.svg"></img> -\-> -->
+<!--     <\!--     Run srclib on your code -\-> -->
+<!--     <\!--   </div> -\-> -->
+<!--     <\!--   <div class="col-sm-6"> -\-> -->
+<!--     <\!--     <h1>Features</h1> -\-> -->
+<!--     <\!--     <ul> -\-> -->
+<!--     <\!--       <li>Jump to Definition</li> -\-> -->
+<!--     <\!--       <li>Find Usage Examples</li> -\-> -->
+<!--     <\!--       <li>Type Inference</li> -\-> -->
+<!--     <\!--       <li>Autocomplete</li> -\-> -->
+<!--     <\!--       <li>Dependency Resolution</li> -\-> -->
+<!--     <\!--     </ul> -\-> -->
+<!--     <\!--     For more info, check out this screencast. -\-> -->
+<!--     <\!--   </div> -\-> -->
+<!--     <\!-- </div> -\-> -->
+<!--     <div> -->
+<!--       TODO: -->
+<!--       as an editor plugin (see above) -->
+<!--       as a code search site (Sourcegraph.com) -->
+<!--       as a command line tool (src) -->
+<!--     </div> -->
+<!--   </div> -->
+<!-- </div> -->
+
+
+
+<!-- <div class="integrations section"> -->
+<!--   <div class="container"> -->
+<!--     <div class="row"> -->
+<!--       <div id="left" class="col-sm-6"> -->
+<!--         <h1>Integrations</h1> -->
+<!--         <p>scrlib aims to provide high-quality editor plugins for its language analysis platform.</p> -->
+<!--         <p>Install the plugin for your editor (or hack on one if we don't support it yet).</p> -->
+<!--       </div> -->
+<!--       <div id="right" class="col-sm-6"> -->
+<!--         <img src="/images/integrations.svg"></img> -->
+<!--         Install srclib in your editor -->
+<!--       </div> -->
+<!--     </div> -->
+<!--   </div> -->
+<!-- </div> -->
+
+<!-- <div class="languages section"> -->
+<!--   <div class="container"> -->
+<!--     <div class="row"> -->
+<!--       <div class="col-sm-6"> -->
+<!--         <img src="/images/languages.svg"></img> -->
+<!--       </div> -->
+<!--       <div class="col-sm-6"> -->
+<!--         <h1>Road map</h1> -->
+<!--         <p>srclib currently supports Ruby, Python, Node.js, and Go.</p> -->
+<!--         <p>If you're a developer with a love of language analysis, be sure to check out the other languages people are working on here.</p> -->
+<!--       </div> -->
+<!--     </div> -->
+<!--   </div> -->
+<!-- </div> -->
+
+
+<div class="section">
+  <div class="container">
+    <h1 style="text-align: center;">Get involved</h1>
+    <br>
+
+    srclib is currently in beta. We are fixing bugs, adding support for more
+    languages, and building more editor plugins on top of it. Help us out by
+    using srclib and sending us feedback, spreading the word, or contributing
+    code!
+
+    <h2>Use srclib as:</h2>
+    <ul>
+      <li><a href="#install-an-editor-plugin">An editor plugin</a></li>
+      <li>
+        <a href="/api/describe">A command line tool</a> (e.g.,
+        <code>
+            $ src api describe --file myfile.py --start-byte 123
+        </code>
+        )
+      </li>
+      <li><a href="https://sourcegraph.com">Sourcegraph, a code search engine
+      built on srclib</a></li>
+    </ul>
+
+
+    <h2>Subscribe and share</h2>
+    <p>
+
+<a href="https://twitter.com/srclib" class="twitter-follow-button"
+   data-show-count="false" data-size="large">Follow @srclib</a>
+<script>!function(d,s,id){var
+  js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document,
+  'script', 'twitter-wjs');</script>
+
+    <a href="https://twitter.com/share" class="twitter-share-button"
+       data-text="srclib, an open-source polyglot code analysis lib for dev tools"
+       data-size="large" data-count="none" data-hashtags="srclib">Tweet</a>
+    <script>!function(d,s,id){var
+      js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document,
+      'script', 'twitter-wjs');</script>
+
+
+    <p>
+    {% include "newsletter2.html" %}
+
+    <p><p> Join the srclib mailing list to hear about support for new languages,
+    editors, and analysis features.
+
+
+
+
+    <h2>Build and contribute</h2>
+
+    <p>
+    srclib is 100% open source and built on other well-established open-source
+    projects like
+    <a target="_blank" href="http://ternjs.net/">Tern</a>,
+    <a target="_blank" href="http://yardoc.org/">YARD</a>, and
+    <a target="_blank" href="http://jedi.jedidjah.ch/">Jedi</a>.
+
+    <p>
+    Check out the <a href="/gettingstarted">srclib docs</a> for more info.
+
+
+    <h2>Join the community</h2>
+    <p><a href="/community.html">Join the srclib Google Group or come meet us in person!</a>
+
+
+
+
+  </div>
+</div>
+
+
+
+<div class="team section">
+  <div class="container">
+    <div>
+      Brought to you by the <img src="/images/srclib_symbol_white.svg" height=47 width=47 style="margin-left:-8px"><strong>srclib</strong> team.
+      <br>
+      <br>
+      <a target="_blank" href="https://twitter.com/sqs">@sqs</a>,
+      <a target="_blank" href="https://twitter.com/beyang">@beyang</a>,
+      <a target="_blank" href="https://twitter.com/charles_vickery">@charles_vickery</a>,
+      <a target="_blank" href="https://twitter.com/varunprime">@varunprime</a>,
+      <a target="_blank" href="https://twitter.com/_tolli">@_tolli</a>,
+      <a target="_blank" href="https://twitter.com/maikumori">@maikumori</a>,
+      <a target="_blank" href="https://twitter.com/samertm">@samertm</a>
+    </div>
+  </div>
+</div>
+
+</div>
+{% endblock %}

@@ -2,13 +2,12 @@ package main
 
 import (
 	"bufio"
-	"fmt"
 	"io"
 	"io/ioutil"
 	"log"
 	"os"
 
-	"github.com/codegangsta/cli"
+	"github.com/jingweno/ccat/Godeps/_workspace/src/github.com/codegangsta/cli"
 )
 
 func main() {
@@ -78,7 +77,7 @@ func ccat(file string, colorDefs ColorDefs) error {
 		return err
 	}
 
-	fmt.Printf("%s", content)
+	_, err = os.Stdout.Write(content)
 
-	return nil
+	return err
 }
