@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"fmt"
 	"io"
 	"io/ioutil"
 	"log"
@@ -78,7 +77,7 @@ func ccat(file string, colorDefs ColorDefs) error {
 		return err
 	}
 
-	fmt.Printf("%s", content)
+	_, err = os.Stdout.Write(content)
 
-	return nil
+	return err
 }
