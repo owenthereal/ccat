@@ -26,10 +26,6 @@ func main() {
 		},
 	}
 	app.Action = func(c *cli.Context) {
-		if len(c.Args()) != 1 {
-			log.Fatal("Must specify exactly 1 filename argument.")
-		}
-
 		var colorDefs ColorDefs
 		if c.String("bg") == "dark" {
 			colorDefs = DarkColorDefs
@@ -37,17 +33,19 @@ func main() {
 			colorDefs = LightColorDefs
 		}
 
-		input, err := ioutil.ReadFile(c.Args().Get(0))
-		if err != nil {
-			log.Fatal(err)
-		}
+		for _, file := range c.Args() {
+			input, err := ioutil.ReadFile(file)
+			if err != nil {
+				log.Fatal(err)
+			}
 
-		content, err := AsCCat(input, colorDefs)
-		if err != nil {
-			log.Fatal(err)
-		}
+			content, err := AsCCat(input, colorDefs)
+			if err != nil {
+				log.Fatal(err)
+			}
 
-		fmt.Printf("%s", content)
+			fmt.Printf("%s", content)
+		}
 	}
 
 	app.Run(os.Args)
