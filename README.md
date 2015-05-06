@@ -40,11 +40,13 @@ Prerequisites:
 $ go get -u github.com/jingweno/ccat
 ```
 
-## Examples
+## Usage
 
 ```
 $ ccat FILE1 FILE2 ...
+$ ccat --bg=dark FILE1 FILE 2 ... # dark background
 $ ccat # read from standard input
+$ curl https://raw.githubusercontent.com/jingweno/ccat/master/main.go | ccat
 ```
 
 ## Demo
