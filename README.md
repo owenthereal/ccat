@@ -2,6 +2,15 @@
 
 `ccat` is the colorizing `cat`. It works similar to `cat` but displays content with syntax highlighting.
 
+# Supported Languages
+
+* JavaScript
+* Java
+* Ruby
+* Python
+* Go
+* C
+
 # Installation
 
 ## OSX
