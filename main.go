@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"io"
 	"log"
 	"os"
 
@@ -38,35 +37,33 @@ func runCCat(c *cli.Context) {
 		colorDefs = LightColorDefs
 	}
 
-	files := c.Args()
+	fnames := c.Args()
 	// if there's no args, read from stdin
-	if len(files) == 0 {
-		files = append(files, "-")
+	if len(fnames) == 0 {
+		fnames = append(fnames, "-")
 	}
 
-	for _, file := range files {
-		err := ccat(file, colorDefs)
+	for _, fname := range fnames {
+		err := ccat(fname, colorDefs)
 		if err != nil {
 			log.Fatal(err)
 		}
 	}
 }
 
-func ccat(file string, colorDefs ColorDefs) error {
-	var reader io.Reader
-	if file == "-" {
-		reader = bufio.NewReader(os.Stdin)
-	} else {
-		f, err := os.Open(file)
+func ccat(fname string, colorDefs ColorDefs) error {
+	file := os.Stdin
+	if fname != "-" {
+		var err error
+		file, err = os.Open(fname)
 		if err != nil {
 			return err
 		}
 
-		defer f.Close()
-		reader = f
+		defer file.Close()
 	}
 
-	content, err := AsCCat(reader, colorDefs)
+	content, err := AsCCat(bufio.NewReader(file), colorDefs)
 	if err != nil {
 		return err
 	}
