@@ -41,7 +41,7 @@ func runCCat(c *cli.Context) {
 	fnames := c.Args()
 	// if there's no args, read from stdin
 	if len(fnames) == 0 {
-		fnames = append(fnames, "-")
+		fnames = []string{"-"}
 	}
 
 	for _, fname := range fnames {
