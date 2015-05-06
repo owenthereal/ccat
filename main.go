@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"bytes"
 	"log"
 	"os"
 
@@ -63,5 +64,13 @@ func ccat(fname string, colorDefs ColorDefs) error {
 		defer file.Close()
 	}
 
-	return AsCCat(bufio.NewReader(file), os.Stdout, colorDefs)
+	var buf bytes.Buffer
+	err := AsCCat(bufio.NewReader(file), &buf, colorDefs)
+	if err != nil {
+		return err
+	}
+
+	_, err = os.Stdout.Write(buf.Bytes())
+
+	return err
 }
