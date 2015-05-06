@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bytes"
 	"io"
 	"text/scanner"
 
@@ -40,14 +39,8 @@ var DarkColorDefs = ColorDefs{
 	syntaxhighlight.Decimal:       "blue",
 }
 
-func AsCCat(r io.Reader, cdefs ColorDefs) ([]byte, error) {
-	var buf bytes.Buffer
-	err := syntaxhighlight.Print(newScanner(r), &buf, Printer{cdefs})
-	if err != nil {
-		return nil, err
-	}
-
-	return buf.Bytes(), nil
+func AsCCat(r io.Reader, w io.Writer, cdefs ColorDefs) error {
+	return syntaxhighlight.Print(newScanner(r), w, Printer{cdefs})
 }
 
 func newScanner(r io.Reader) *scanner.Scanner {
@@ -71,9 +64,6 @@ func (p Printer) Print(w io.Writer, kind syntaxhighlight.Kind, tokText string) e
 	}
 
 	_, err := io.WriteString(w, tokText)
-	if err != nil {
-		return err
-	}
 
-	return nil
+	return err
 }

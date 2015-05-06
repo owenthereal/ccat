@@ -63,12 +63,5 @@ func ccat(fname string, colorDefs ColorDefs) error {
 		defer file.Close()
 	}
 
-	content, err := AsCCat(bufio.NewReader(file), colorDefs)
-	if err != nil {
-		return err
-	}
-
-	_, err = os.Stdout.Write(content)
-
-	return err
+	return AsCCat(bufio.NewReader(file), os.Stdout, colorDefs)
 }
