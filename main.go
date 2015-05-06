@@ -3,10 +3,13 @@ package main
 import (
 	"bufio"
 	"bytes"
+	"io"
 	"log"
 	"os"
+	"syscall"
 
 	"github.com/jingweno/ccat/Godeps/_workspace/src/github.com/codegangsta/cli"
+	"github.com/jingweno/ccat/Godeps/_workspace/src/golang.org/x/crypto/ssh/terminal"
 )
 
 func main() {
@@ -64,13 +67,20 @@ func ccat(fname string, colorDefs ColorDefs) error {
 		defer file.Close()
 	}
 
-	var buf bytes.Buffer
-	err := AsCCat(bufio.NewReader(file), &buf, colorDefs)
-	if err != nil {
-		return err
-	}
+	reader := bufio.NewReader(file)
 
-	_, err = os.Stdout.Write(buf.Bytes())
+	var err error
+	if terminal.IsTerminal(syscall.Stdout) {
+		var buf bytes.Buffer
+		err = AsCCat(reader, &buf, colorDefs)
+		if err != nil {
+			return err
+		}
+
+		_, err = os.Stdout.Write(buf.Bytes())
+	} else {
+		_, err = io.Copy(os.Stdout, reader)
+	}
 
 	return err
 }
