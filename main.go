@@ -13,10 +13,11 @@ func main() {
 	app := cli.NewApp()
 	app.Name = "ccat"
 	app.Usage = "Concatenate FILE(s), or standard input, to standard output with colorized output."
-	app.EnableBashCompletion = true
 	app.Version = Version
 	app.Author = ""
 	app.Email = ""
+	app.HideHelp = true
+	app.HideVersion = true
 	app.Flags = []cli.Flag{
 		cli.StringFlag{
 			Name:  "bg",
