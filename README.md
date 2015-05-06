@@ -47,6 +47,19 @@ $ ccat # read from standard input
 
 Thanks to [Sourcegraph](https://github.com/sourcegraph) who built [this](https://github.com/sourcegraph/syntaxhighlight) awesome syntax-highlighting package.
 
+## FAQ
+
+### Why not pygments?
+
+You could use [pygments](http://pygments.org/) to achieve pretty much the same thing:
+
+```
+$ alias ccat="pygmentize -g"
+$ ccat FILE1
+```
+
+`ccat` is a \*nix alternative to pygments: no interpreter, one binary, native speed, POSIX standard etc..
+
 ## License
 
 [MIT](https://github.com/jingweno/ccat/blob/master/LICENSE)
