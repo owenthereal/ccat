@@ -7,7 +7,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/codegangsta/cli"
+	"github.com/jingweno/ccat/Godeps/_workspace/src/github.com/codegangsta/cli"
 )
 
 func main() {

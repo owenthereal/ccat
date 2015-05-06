@@ -1,0 +1,24 @@
+<div class="navbar navbar-inverse" role="navigation">
+  <div class="container">
+    <ul class="nav navbar-nav">
+      {% for nav_item in nav %}
+        {% if nav_item.children %}
+          <li class="dropdown{% if nav_item.active %} active{% endif %}">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ nav_item.title }} <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+            {% for nav_item in nav_item.children %}
+                <li {% if nav_item.active %}class="active"{% endif %}>
+                    <a href="{{ nav_item.url }}">{{ nav_item.title }}</a>
+                </li>
+            {% endfor %}
+            </ul>
+          </li>
+        {% else %}
+          <li {% if nav_item.active %}class="active"{% endif %}>
+            <a href="{{ nav_item.url }}">{{ nav_item.title }}</a>
+          </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </div>
+</div>

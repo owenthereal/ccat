@@ -1,4 +1,3 @@
 #!/bin/bash -e
 
-go get
 go build -o ccat

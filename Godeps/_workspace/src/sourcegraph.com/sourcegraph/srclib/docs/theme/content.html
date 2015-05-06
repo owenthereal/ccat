@@ -1,0 +1,16 @@
+<div class="pull-right content-edit">
+  <a href="https://github.com/sourcegraph/srclib/tree/master/docs/sources/{{ current_page.input_path }}">
+    <span class="glyphicon glyphicon-edit"></span> Edit
+  </a>
+</div>
+
+{% if meta.source %}
+  <div class="source-links">
+  {% for filename in meta.source %}
+      <span class="label label-primary">{{ filename }}</span>
+  {% endfor %}
+  </div>
+{% endif %}
+
+{{ content }}
+
