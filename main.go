@@ -7,8 +7,10 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"syscall"
 
 	"github.com/jingweno/ccat/Godeps/_workspace/src/github.com/codegangsta/cli"
+	"github.com/jingweno/ccat/Godeps/_workspace/src/golang.org/x/crypto/ssh/terminal"
 )
 
 func main() {
@@ -76,13 +78,19 @@ func ccat(fname string, colorDefs ColorDefs) error {
 		r = file
 	}
 
-	var buf bytes.Buffer
-	err := AsCCat(bufio.NewReader(r), &buf, colorDefs)
-	if err != nil {
-		return err
-	}
+	r = bufio.NewReader(r)
+	var err error
+	if terminal.IsTerminal(syscall.Stdout) {
+		var buf bytes.Buffer
+		err = AsCCat(r, &buf, colorDefs)
+		if err != nil {
+			return err
+		}
 
-	_, err = os.Stdout.Write(buf.Bytes())
+		_, err = os.Stdout.Write(buf.Bytes())
+	} else {
+		_, err = io.Copy(os.Stdout, r)
+	}
 
 	return err
 }

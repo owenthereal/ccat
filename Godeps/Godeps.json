@@ -68,6 +68,10 @@
 			"Rev": "4317e899aa9438ba7603a6e322389571cb3ffdff"
 		},
 		{
+			"ImportPath": "golang.org/x/crypto/ssh/terminal",
+			"Rev": "8b27f58b78dbd60e9a26b60b0d908ea642974b6d"
+		},
+		{
 			"ImportPath": "golang.org/x/tools/godoc/vfs",
 			"Rev": "af0a4481dd36113fd967a37a64d887d4b9d3425e"
 		},
