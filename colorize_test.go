@@ -36,3 +36,39 @@ func TestColorize(t *testing.T) {
 		}
 	}
 }
+
+func TestColorizeMultiByte(t *testing.T) {
+	cases := []struct {
+		Color, Output string
+	}{
+		// Japanese
+		{
+			Color:  "",
+			Output: "こんにちは",
+		},
+
+		{
+			Color:  "blue",
+			Output: "\033[34;01mこんにちは\033[39;49;00m",
+		},
+		{
+			Color:  "_blue_",
+			Output: "\033[04m\033[34;01mこんにちは\033[39;49;00m",
+		},
+		{
+			Color:  "bold",
+			Output: "\033[01mこんにちは\033[39;49;00m",
+		},
+	}
+
+	for _, tc := range cases {
+		actual := Colorize(tc.Color, "こんにちは")
+		if actual != tc.Output {
+			t.Errorf(
+				"Color: %#v\n\nOutput: %#v\n\nExpected: %#v",
+				tc.Color,
+				actual,
+				tc.Output)
+		}
+	}
+}
