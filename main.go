@@ -3,6 +3,8 @@ package main
 import (
 	"bufio"
 	"bytes"
+	"io"
+	"io/ioutil"
 	"log"
 	"os"
 
@@ -53,19 +55,29 @@ func runCCat(c *cli.Context) {
 }
 
 func ccat(fname string, colorDefs ColorDefs) error {
-	file := os.Stdin
-	if fname != "-" {
-		var err error
-		file, err = os.Open(fname)
+	var r io.Reader
+
+	if fname == "-" {
+		// scanner.Scanner from text/scanner couldn't detect EOF
+		// if the io.Reader is os.Stdin
+		// see https://github.com/golang/go/issues/10735
+		b, err := ioutil.ReadAll(os.Stdin)
 		if err != nil {
 			return err
 		}
 
+		r = bytes.NewReader(b)
+	} else {
+		file, err := os.Open(fname)
+		if err != nil {
+			return err
+		}
 		defer file.Close()
+		r = file
 	}
 
 	var buf bytes.Buffer
-	err := AsCCat(bufio.NewReader(file), &buf, colorDefs)
+	err := AsCCat(bufio.NewReader(r), &buf, colorDefs)
 	if err != nil {
 		return err
 	}
