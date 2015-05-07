@@ -63,7 +63,7 @@ $ curl https://raw.githubusercontent.com/jingweno/ccat/master/main.go | ccat
 
 ### Why not pygments?
 
-You could use [pygments](http://pygments.org/) to achieve pretty much the same thing:
+You could use Python's [pygments](http://pygments.org/) to achieve pretty much the same thing:
 
 ```
 $ alias ccat="pygmentize -g"
