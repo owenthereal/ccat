@@ -16,8 +16,7 @@
 ### OSX
 
 ```
-$ brew tap jingweno/ccat
-$ brew install ccat
+$ brew install jingweno/ccat/ccat
 ```
 
 Reference: [jingweno/homebrew-ccat](https://github.com/jingweno/homebrew-ccat)
