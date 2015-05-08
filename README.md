@@ -71,6 +71,17 @@ $ ccat FILE1
 
 `ccat` is a \*nix alternative to pygments: no interpreter, one binary, native speed, POSIX standard etc..
 
+### Why not GNU source-highlight?
+
+You could also use [GNU source-highlight]() to perform the same task:
+
+```
+$ alias ccat="source-highlight -fesc -o STDOUT -i"
+$ ccat FILE1
+```
+
+`ccat` is an alternative to source-highlight. Written in go.
+
 ## License
 
 [MIT](https://github.com/jingweno/ccat/blob/master/LICENSE)
