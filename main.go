@@ -10,7 +10,12 @@ import (
 	"syscall"
 
 	"github.com/jingweno/ccat/Godeps/_workspace/src/github.com/codegangsta/cli"
-	"github.com/jingweno/ccat/Godeps/_workspace/src/golang.org/x/crypto/ssh/terminal"
+	"github.com/jingweno/ccat/Godeps/_workspace/src/github.com/mattn/go-colorable"
+	"github.com/jingweno/ccat/Godeps/_workspace/src/github.com/mattn/go-isatty"
+)
+
+var (
+	stdout = colorable.NewColorableStdout()
 )
 
 func main() {
@@ -80,14 +85,14 @@ func ccat(fname string, colorDefs ColorDefs) error {
 
 	r = bufio.NewReader(r)
 	var err error
-	if terminal.IsTerminal(syscall.Stdout) {
+	if isatty.IsTerminal(uintptr(syscall.Stdout)) {
 		var buf bytes.Buffer
 		err = AsCCat(r, &buf, colorDefs)
 		if err != nil {
 			return err
 		}
 
-		_, err = os.Stdout.Write(buf.Bytes())
+		_, err = stdout.Write(buf.Bytes())
 	} else {
 		_, err = io.Copy(os.Stdout, r)
 	}
