@@ -58,29 +58,14 @@ $ curl https://raw.githubusercontent.com/jingweno/ccat/master/main.go | ccat
 - [ ] customizable color scheme
 - [ ] ?
 
-## FAQ
+## Alternatives
 
-### Why not pygments?
+`ccat` is designed to be distributed in one binary, run at native speed
+and follow the POSIX standards. There're alternatives out there.
+Use them at your own risk :):
 
-You could use Python's [pygments](http://pygments.org/) to achieve pretty much the same thing:
-
-```
-$ alias ccat="pygmentize -g"
-$ ccat FILE1
-```
-
-`ccat` is a \*nix alternative to pygments: no interpreter, one binary, native speed, POSIX standard etc..
-
-### Why not GNU source-highlight?
-
-You could also use [GNU source-highlight]() to perform the same task:
-
-```
-$ alias ccat="source-highlight -fesc -o STDOUT -i"
-$ ccat FILE1
-```
-
-`ccat` is an alternative to source-highlight. Written in go.
+* [pygments](http://pygments.org/)
+* [source-highlight](https://www.gnu.org/software/src-highlite/)
 
 ## License
 
