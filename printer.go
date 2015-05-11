@@ -39,7 +39,7 @@ var DarkColorDefs = ColorDefs{
 	syntaxhighlight.Decimal:       "blue",
 }
 
-func AsCCat(r io.Reader, w io.Writer, cdefs ColorDefs) error {
+func CPrint(r io.Reader, w io.Writer, cdefs ColorDefs) error {
 	return syntaxhighlight.Print(newScanner(r), w, Printer{cdefs})
 }
 
