@@ -13,7 +13,7 @@ version() {
 }
 
 compress() {
-  cd bin
+  cd release
 
   for dir in */
   do
@@ -38,7 +38,7 @@ echo
 
 go get -u github.com/mitchellh/gox
 
-gox -osarch="$OSARCH" -output="bin/{{.OS}}-{{.Arch}}-$(version)/{{.Dir}}"
+gox -osarch="$OSARCH" -output="release/{{.OS}}-{{.Arch}}-$(version)/{{.Dir}}"
 echo
 
 compress
