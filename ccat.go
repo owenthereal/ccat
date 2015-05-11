@@ -7,7 +7,7 @@ import (
 	"os"
 	"syscall"
 
-	"github.com/mattn/go-isatty"
+	"github.com/jingweno/ccat/Godeps/_workspace/src/github.com/mattn/go-isatty"
 )
 
 func CCat(fname string, colorDefs ColorDefs) error {
