@@ -9,7 +9,7 @@ func TestAsCCat(t *testing.T) {
 	r := bytes.NewBufferString("hello")
 	var w bytes.Buffer
 
-	err := AsCCat(r, &w, LightColorDefs)
+	err := CPrint(r, &w, LightColorDefs)
 	if err != nil {
 		t.Errorf("error should be nil, but it's %s", err)
 	}
