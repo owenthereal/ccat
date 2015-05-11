@@ -34,9 +34,9 @@ func CCat(fname string, colorDefs ColorDefs) error {
 
 	var err error
 	if isatty.IsTerminal(uintptr(syscall.Stdout)) {
-		err = CPrint(r, os.Stdout, colorDefs)
+		err = CPrint(r, stdout, colorDefs)
 	} else {
-		_, err = io.Copy(os.Stdout, r)
+		_, err = io.Copy(stdout, r)
 	}
 
 	return err
