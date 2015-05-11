@@ -2,7 +2,6 @@ package main
 
 import (
 	"io"
-	"text/scanner"
 
 	"github.com/jingweno/ccat/Godeps/_workspace/src/github.com/sourcegraph/syntaxhighlight"
 )
@@ -40,17 +39,7 @@ var DarkColorDefs = ColorDefs{
 }
 
 func CPrint(r io.Reader, w io.Writer, cdefs ColorDefs) error {
-	return syntaxhighlight.Print(newScanner(r), w, Printer{cdefs})
-}
-
-func newScanner(r io.Reader) *scanner.Scanner {
-	var s scanner.Scanner
-	s.Init(r)
-	s.Error = func(_ *scanner.Scanner, _ string) {}
-	s.Whitespace = 0
-	s.Mode = s.Mode ^ scanner.SkipComments
-
-	return &s
+	return syntaxhighlight.Print(syntaxhighlight.NewScannerReader(r), w, Printer{cdefs})
 }
 
 type Printer struct {

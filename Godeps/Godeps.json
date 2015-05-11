@@ -69,7 +69,7 @@
 		},
 		{
 			"ImportPath": "github.com/sourcegraph/syntaxhighlight",
-			"Rev": "47c78b35462653daa59009e2d8a3a1eef62dbe1b"
+			"Rev": "7576996ba33e9c020d08985fced66483ddb2913e"
 		},
 		{
 			"ImportPath": "github.com/sqs/fileset",

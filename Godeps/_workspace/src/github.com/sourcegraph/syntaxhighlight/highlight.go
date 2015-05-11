@@ -302,9 +302,15 @@ func AsHTML(src []byte) ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
+// NewScanner is a helper that takes a []byte src, wraps it in a reader and creates a Scanner.
 func NewScanner(src []byte) *scanner.Scanner {
+	return NewScannerReader(bytes.NewReader(src))
+}
+
+// NewScannerReader takes a reader src and creates a Scanner.
+func NewScannerReader(src io.Reader) *scanner.Scanner {
 	var s scanner.Scanner
-	s.Init(bytes.NewReader(src))
+	s.Init(src)
 	s.Error = func(_ *scanner.Scanner, _ string) {}
 	s.Whitespace = 0
 	s.Mode = s.Mode ^ scanner.SkipComments
