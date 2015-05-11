@@ -3,7 +3,7 @@
 version() {
   ver="$(git describe --tags HEAD 2>/dev/null || true)"
 
-  if [ -z "$version" ]; then
+  if [ -z "$ver" ]; then
     ver="$(grep Version version.go | head -1 | cut -d '"' -f2)"
     sha="$(git rev-parse --short HEAD 2>/dev/null || true)"
     [ -z "$sha" ] || ver="${ver}-g${sha}"
