@@ -47,8 +47,8 @@ type Printer struct {
 }
 
 func (p Printer) Print(w io.Writer, kind syntaxhighlight.Kind, tokText string) error {
-	c := p.ColorDefs[kind]
-	if c != "" {
+	c, exists := p.ColorDefs[kind]
+	if exists {
 		tokText = Colorize(c, tokText)
 	}
 
