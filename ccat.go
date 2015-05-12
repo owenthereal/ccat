@@ -10,7 +10,7 @@ import (
 	"github.com/jingweno/ccat/Godeps/_workspace/src/github.com/mattn/go-isatty"
 )
 
-func CCat(fname string, colorDefs ColorDefs) error {
+func CCat(fname string, colorDefs ColorDefs, w io.Writer) error {
 	var r io.Reader
 
 	if fname == readFromStdin {
@@ -34,9 +34,9 @@ func CCat(fname string, colorDefs ColorDefs) error {
 
 	var err error
 	if isatty.IsTerminal(uintptr(syscall.Stdout)) {
-		err = CPrint(r, stdout, colorDefs)
+		err = CPrint(r, w, colorDefs)
 	} else {
-		_, err = io.Copy(stdout, r)
+		_, err = io.Copy(w, r)
 	}
 
 	return err

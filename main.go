@@ -10,8 +10,6 @@ import (
 
 const readFromStdin = "-"
 
-var stdout = colorable.NewColorableStdout()
-
 func main() {
 	app := cli.NewApp()
 	app.Name = "ccat"
@@ -47,8 +45,9 @@ func runCCat(c *cli.Context) {
 		fnames = []string{readFromStdin}
 	}
 
+	stdout := colorable.NewColorableStdout()
 	for _, fname := range fnames {
-		err := CCat(fname, colorDefs)
+		err := CCat(fname, colorDefs, stdout)
 		if err != nil {
 			log.Fatal(err)
 		}
