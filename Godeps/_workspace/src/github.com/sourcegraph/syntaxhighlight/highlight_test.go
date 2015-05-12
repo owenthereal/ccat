@@ -10,8 +10,6 @@ import (
 	"testing"
 
 	"github.com/jingweno/ccat/Godeps/_workspace/src/github.com/sourcegraph/annotate"
-	"github.com/jingweno/ccat/Godeps/_workspace/src/sourcegraph.com/sourcegraph/go-sourcegraph/sourcegraph"
-	"github.com/jingweno/ccat/Godeps/_workspace/src/sourcegraph.com/sourcegraph/vcsstore/vcsclient"
 	"github.com/kr/pretty"
 )
 
@@ -95,106 +93,6 @@ func TestAnnotate(t *testing.T) {
 		t.Errorf("want %# v, got %# v\n\ndiff:\n%v", pretty.Formatter(want), pretty.Formatter(got), strings.Join(pretty.Diff(got, want), "\n"))
 		for _, g := range got {
 			t.Logf("%+v  %q  LEFT=%q RIGHT=%q", g, src[g.Start:g.End], g.Left, g.Right)
-		}
-	}
-}
-
-// codeEquals tests the equality between the given SourceCode entry and an
-// array of lines containing arrays of tokens as their string representation.
-func codeEquals(code *sourcegraph.SourceCode, want [][]string) bool {
-	if len(code.Lines) != len(want) {
-		return false
-	}
-	for i, line := range code.Lines {
-		for j, t := range line.Tokens {
-			switch t := t.(type) {
-			case *sourcegraph.SourceCodeToken:
-				if t.Label != want[i][j] {
-					return false
-				}
-			case string:
-				if t != want[i][j] {
-					return false
-				}
-			}
-		}
-	}
-	return true
-}
-
-func TestCodeEquals(t *testing.T) {
-	for _, tt := range []struct {
-		code *sourcegraph.SourceCode
-		want [][]string
-	}{
-		{
-			code: &sourcegraph.SourceCode{
-				Lines: []*sourcegraph.SourceCodeLine{
-					&sourcegraph.SourceCodeLine{
-						Tokens: []interface{}{
-							&sourcegraph.SourceCodeToken{Label: "a"},
-							&sourcegraph.SourceCodeToken{Label: "b"},
-							"c",
-							&sourcegraph.SourceCodeToken{Label: "d"},
-							"e",
-						},
-					},
-					&sourcegraph.SourceCodeLine{},
-					&sourcegraph.SourceCodeLine{
-						Tokens: []interface{}{
-							"c",
-						},
-					},
-				},
-			},
-			want: [][]string{[]string{"a", "b", "c", "d", "e"}, []string{}, []string{"c"}},
-		},
-	} {
-		if !codeEquals(tt.code, tt.want) {
-			t.Errorf("Expected: %# v, Got: %# v\n", tt.code, tt.want)
-		}
-	}
-}
-
-func newFileWithRange(src []byte) *vcsclient.FileWithRange {
-	return &vcsclient.FileWithRange{
-		TreeEntry: &vcsclient.TreeEntry{Contents: []byte(src)},
-		FileRange: vcsclient.FileRange{StartByte: 0, EndByte: int64(len(src))},
-	}
-}
-
-func TestNilAnnotator_multiLineTokens(t *testing.T) {
-	for _, tt := range []struct {
-		src  string
-		want [][]string
-	}{
-		{
-			src: "/* I am\na multiline\ncomment\n*/",
-			want: [][]string{
-				[]string{"/* I am"},
-				[]string{"a multiline"},
-				[]string{"comment"},
-				[]string{"*/"},
-			},
-		},
-		{
-			src: "a := `I am\na multiline\nstring literal\n`",
-			want: [][]string{
-				[]string{"a", " ", ":", "=", " ", "`I am"},
-				[]string{"a multiline"},
-				[]string{"string literal"},
-				[]string{"`"},
-			},
-		},
-	} {
-		e := newFileWithRange([]byte(tt.src))
-		ann := NewNilAnnotator(e)
-		_, err := Annotate(e.Contents, ann)
-		if err != nil {
-			t.Fatal(err)
-		}
-		if !codeEquals(ann.Code, tt.want) {
-			t.Errorf("Expected %# v\n\nGot %# v", tt.want, pretty.Formatter(ann.Code.Lines))
 		}
 	}
 }

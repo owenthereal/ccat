@@ -1,7 +1,0 @@
-language: go
-
-env: PATH=$PATH:$GOBIN:$HOME/gopath/bin
-
-go:
-  - 1.1
-  - tip
