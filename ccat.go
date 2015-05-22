@@ -10,7 +10,39 @@ import (
 	"github.com/jingweno/ccat/Godeps/_workspace/src/github.com/mattn/go-isatty"
 )
 
-func CCat(fname string, colorDefs ColorDefs, w io.Writer) error {
+type CCatPrinter interface {
+	Print(r io.Reader, w io.Writer) error
+}
+
+type AutoColorPrinter struct {
+	ColorDefs ColorDefs
+}
+
+func (a AutoColorPrinter) Print(r io.Reader, w io.Writer) error {
+	if isatty.IsTerminal(uintptr(syscall.Stdout)) {
+		return ColorPrinter{a.ColorDefs}.Print(r, w)
+	} else {
+		return PlainTextPrinter{}.Print(r, w)
+	}
+}
+
+type ColorPrinter struct {
+	ColorDefs ColorDefs
+}
+
+func (c ColorPrinter) Print(r io.Reader, w io.Writer) error {
+	return CPrint(r, w, c.ColorDefs)
+}
+
+type PlainTextPrinter struct {
+}
+
+func (p PlainTextPrinter) Print(r io.Reader, w io.Writer) error {
+	_, err := io.Copy(w, r)
+	return err
+}
+
+func CCat(fname string, p CCatPrinter, w io.Writer) error {
 	var r io.Reader
 
 	if fname == readFromStdin {
@@ -32,12 +64,5 @@ func CCat(fname string, colorDefs ColorDefs, w io.Writer) error {
 		r = file
 	}
 
-	var err error
-	if isatty.IsTerminal(uintptr(syscall.Stdout)) {
-		err = CPrint(r, w, colorDefs)
-	} else {
-		_, err = io.Copy(w, r)
-	}
-
-	return err
+	return p.Print(r, w)
 }

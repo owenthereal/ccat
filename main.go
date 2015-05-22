@@ -8,22 +8,43 @@ import (
 	"github.com/jingweno/ccat/Godeps/_workspace/src/github.com/mattn/go-colorable"
 )
 
-const readFromStdin = "-"
+const (
+	readFromStdin = "-"
+)
+
+func init() {
+	cli.AppHelpTemplate = `NAME:
+    {{.Name}} - {{.Usage}}
+
+USAGE:
+    {{.Name}} [options] [file ...]
+
+VERSION:
+    {{.Version}}
+
+OPTIONS:
+	{{range .Flags}}{{.}}
+	{{end}}
+Using color is auto both by default and with --color=auto. With --color=auto,
+ccat emits color codes only when standard output is connected to a terminal.
+`
+}
 
 func main() {
 	app := cli.NewApp()
 	app.Name = "ccat"
-	app.Usage = "Concatenate FILE(s), or standard input, to standard output with colorized output."
+	app.Usage = "Colorize FILE(s), or standard input, to standard output."
 	app.Version = Version
-	app.Author = ""
-	app.Email = ""
-	app.HideHelp = true
-	app.HideVersion = true
 	app.Flags = []cli.Flag{
 		cli.StringFlag{
 			Name:  "bg",
 			Value: "light",
 			Usage: `Set to "light" or "dark" depending on the terminal's background.`,
+		},
+		cli.StringFlag{
+			Name:  "C, color",
+			Value: "auto",
+			Usage: `Colorize the output; Value can be "never", "always" or "auto".`,
 		},
 	}
 	app.Action = runCCat
@@ -39,6 +60,15 @@ func runCCat(c *cli.Context) {
 		colorDefs = LightColorDefs
 	}
 
+	var printer CCatPrinter
+	if c.String("color") == "always" {
+		printer = ColorPrinter{colorDefs}
+	} else if c.String("color") == "never" {
+		printer = PlainTextPrinter{}
+	} else {
+		printer = AutoColorPrinter{colorDefs}
+	}
+
 	fnames := c.Args()
 	// if there's no args, read from stdin
 	if len(fnames) == 0 {
@@ -47,7 +77,7 @@ func runCCat(c *cli.Context) {
 
 	stdout := colorable.NewColorableStdout()
 	for _, fname := range fnames {
-		err := CCat(fname, colorDefs, stdout)
+		err := CCat(fname, printer, stdout)
 		if err != nil {
 			log.Fatal(err)
 		}
