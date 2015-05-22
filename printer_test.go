@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestAsCCat(t *testing.T) {
+func TestCPrint(t *testing.T) {
 	r := bytes.NewBufferString("hello")
 	var w bytes.Buffer
 
