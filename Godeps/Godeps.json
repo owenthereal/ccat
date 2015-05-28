@@ -6,9 +6,8 @@
 	],
 	"Deps": [
 		{
-			"ImportPath": "github.com/codegangsta/cli",
-			"Comment": "1.2.0-107-g942282e",
-			"Rev": "942282e931e8286aa802a30b01fa7e16befb50f3"
+			"ImportPath": "github.com/inconshreveable/mousetrap",
+			"Rev": "76626ae9c91c4f2a10f34cad8ce83ea42c93bb75"
 		},
 		{
 			"ImportPath": "github.com/mattn/go-colorable",
@@ -25,6 +24,14 @@
 		{
 			"ImportPath": "github.com/sourcegraph/syntaxhighlight",
 			"Rev": "637a8b8b94eca8bb8cd559b950cc4f42629ec137"
+		},
+		{
+			"ImportPath": "github.com/spf13/cobra",
+			"Rev": "8f5946caaeeff40a98d67f60c25e89c3525038a3"
+		},
+		{
+			"ImportPath": "github.com/spf13/pflag",
+			"Rev": "b91b2a94780f4e6b4d3b0c12fd9b5f4b05b1aa45"
 		}
 	]
 }
