@@ -50,12 +50,30 @@ func (c *ccatCmd) Run(cmd *cobra.Command, args []string) {
 func main() {
 	ccatCmd := &ccatCmd{}
 	rootCmd := &cobra.Command{
-		Use:  "ccat [file ...]",
+		Use:  "ccat [OPTION]... [FILE]...",
 		Long: "Colorize FILE(s), or standard input, to standard output.",
-		Run:  ccatCmd.Run,
+		Example: `$ ccat FILE1 FILE2 ...
+  $ ccat --bg=dark FILE1 FILE2 ... # dark background
+  $ ccat # read from standard input
+  $ curl https://raw.githubusercontent.com/jingweno/ccat/master/main.go | ccat`,
+		Run: ccatCmd.Run,
 	}
+
+	usageTempl := `{{ $cmd := . }}
+Usage:
+  {{.UseLine}}
+
+Flags:
+{{.LocalFlags.FlagUsages}}
+Using color is auto both by default and with --color=auto. With --color=auto,
+ccat emits color codes only when standard output is connected to a terminal.
+
+Examples:
+  {{ .Example }}`
+	rootCmd.SetUsageTemplate(usageTempl)
 
 	rootCmd.PersistentFlags().StringVarP(&ccatCmd.BGFlag, "bg", "", "light", `Set to "light" or "dark" depending on the terminal's background`)
 	rootCmd.PersistentFlags().StringVarP(&ccatCmd.ColorFlag, "color", "C", "auto", `colorize the output; value can be "never", "always" or "auto"`)
+
 	rootCmd.Execute()
 }
