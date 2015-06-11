@@ -8,7 +8,8 @@ import (
 
 type ColorDefs map[syntaxhighlight.Kind]string
 
-func (c ColorDefs) Set(k, v string) {
+func (c ColorDefs) Set(k, v string) bool {
+	ok := true
 	switch k {
 	case "String":
 		c[syntaxhighlight.String] = v
@@ -34,7 +35,11 @@ func (c ColorDefs) Set(k, v string) {
 		c[syntaxhighlight.HTMLAttrValue] = v
 	case "Decimal":
 		c[syntaxhighlight.Decimal] = v
+	default:
+		ok = false
 	}
+
+	return ok
 }
 
 var LightColorDefs = ColorDefs{

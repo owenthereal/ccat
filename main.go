@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/jingweno/ccat/Godeps/_workspace/src/github.com/mattn/go-colorable"
@@ -26,7 +27,10 @@ func (c *ccatCmd) Run(cmd *cobra.Command, args []string) {
 	}
 
 	for k, v := range c.ColorValues {
-		colorDefs.Set(k, v)
+		ok := colorDefs.Set(k, v)
+		if !ok {
+			log.Fatal(fmt.Errorf("unknown color value: %s", k))
+		}
 	}
 
 	var printer CCatPrinter
