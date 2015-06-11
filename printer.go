@@ -6,37 +6,27 @@ import (
 	"github.com/jingweno/ccat/Godeps/_workspace/src/github.com/sourcegraph/syntaxhighlight"
 )
 
+var colorDefsMap = map[string]syntaxhighlight.Kind{
+	"String":        syntaxhighlight.String,
+	"Keyword":       syntaxhighlight.Keyword,
+	"Comment":       syntaxhighlight.Comment,
+	"Type":          syntaxhighlight.Type,
+	"Literal":       syntaxhighlight.Literal,
+	"Punctuation":   syntaxhighlight.Punctuation,
+	"Plaintext":     syntaxhighlight.Plaintext,
+	"Tag":           syntaxhighlight.Tag,
+	"HTMLTag":       syntaxhighlight.HTMLTag,
+	"HTMLAttrName":  syntaxhighlight.HTMLAttrName,
+	"HTMLAttrValue": syntaxhighlight.HTMLAttrValue,
+	"Decimal":       syntaxhighlight.Decimal,
+}
+
 type ColorDefs map[syntaxhighlight.Kind]string
 
 func (c ColorDefs) Set(k, v string) bool {
-	ok := true
-	switch k {
-	case "String":
-		c[syntaxhighlight.String] = v
-	case "Keyword":
-		c[syntaxhighlight.Keyword] = v
-	case "Comment":
-		c[syntaxhighlight.Comment] = v
-	case "Type":
-		c[syntaxhighlight.Type] = v
-	case "Literal":
-		c[syntaxhighlight.Literal] = v
-	case "Punctuation":
-		c[syntaxhighlight.Punctuation] = v
-	case "Plaintext":
-		c[syntaxhighlight.Plaintext] = v
-	case "Tag":
-		c[syntaxhighlight.Tag] = v
-	case "HTMLTag":
-		c[syntaxhighlight.HTMLTag] = v
-	case "HTMLAttrName":
-		c[syntaxhighlight.HTMLAttrName] = v
-	case "HTMLAttrValue":
-		c[syntaxhighlight.HTMLAttrValue] = v
-	case "Decimal":
-		c[syntaxhighlight.Decimal] = v
-	default:
-		ok = false
+	kind, ok := colorDefsMap[k]
+	if ok {
+		c[kind] = v
 	}
 
 	return ok
