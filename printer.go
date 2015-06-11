@@ -8,6 +8,35 @@ import (
 
 type ColorDefs map[syntaxhighlight.Kind]string
 
+func (c ColorDefs) Set(k, v string) {
+	switch k {
+	case "String":
+		c[syntaxhighlight.String] = v
+	case "Keyword":
+		c[syntaxhighlight.Keyword] = v
+	case "Comment":
+		c[syntaxhighlight.Comment] = v
+	case "Type":
+		c[syntaxhighlight.Type] = v
+	case "Literal":
+		c[syntaxhighlight.Literal] = v
+	case "Punctuation":
+		c[syntaxhighlight.Punctuation] = v
+	case "Plaintext":
+		c[syntaxhighlight.Plaintext] = v
+	case "Tag":
+		c[syntaxhighlight.Tag] = v
+	case "HTMLTag":
+		c[syntaxhighlight.HTMLTag] = v
+	case "HTMLAttrName":
+		c[syntaxhighlight.HTMLAttrName] = v
+	case "HTMLAttrValue":
+		c[syntaxhighlight.HTMLAttrValue] = v
+	case "Decimal":
+		c[syntaxhighlight.Decimal] = v
+	}
+}
+
 var LightColorDefs = ColorDefs{
 	syntaxhighlight.String:        "brown",
 	syntaxhighlight.Keyword:       "darkblue",

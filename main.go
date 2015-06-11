@@ -12,22 +12,27 @@ const (
 )
 
 type ccatCmd struct {
-	BGFlag    string
-	ColorFlag string
+	BG          string
+	Color       string
+	ColorValues mapValue
 }
 
 func (c *ccatCmd) Run(cmd *cobra.Command, args []string) {
 	var colorDefs ColorDefs
-	if c.BGFlag == "dark" {
+	if c.BG == "dark" {
 		colorDefs = DarkColorDefs
 	} else {
 		colorDefs = LightColorDefs
 	}
 
+	for k, v := range c.ColorValues {
+		colorDefs.Set(k, v)
+	}
+
 	var printer CCatPrinter
-	if c.ColorFlag == "always" {
+	if c.Color == "always" {
 		printer = ColorPrinter{colorDefs}
-	} else if c.ColorFlag == "never" {
+	} else if c.Color == "never" {
 		printer = PlainTextPrinter{}
 	} else {
 		printer = AutoColorPrinter{colorDefs}
@@ -48,7 +53,9 @@ func (c *ccatCmd) Run(cmd *cobra.Command, args []string) {
 }
 
 func main() {
-	ccatCmd := &ccatCmd{}
+	ccatCmd := &ccatCmd{
+		ColorValues: make(mapValue),
+	}
 	rootCmd := &cobra.Command{
 		Use:  "ccat [OPTION]... [FILE]...",
 		Long: "Colorize FILE(s), or standard input, to standard output.",
@@ -72,8 +79,9 @@ Examples:
   {{ .Example }}`
 	rootCmd.SetUsageTemplate(usageTempl)
 
-	rootCmd.PersistentFlags().StringVarP(&ccatCmd.BGFlag, "bg", "", "light", `Set to "light" or "dark" depending on the terminal's background`)
-	rootCmd.PersistentFlags().StringVarP(&ccatCmd.ColorFlag, "color", "C", "auto", `colorize the output; value can be "never", "always" or "auto"`)
+	rootCmd.PersistentFlags().StringVarP(&ccatCmd.BG, "bg", "", "light", `set to "light" or "dark" depending on the terminal's background`)
+	rootCmd.PersistentFlags().StringVarP(&ccatCmd.Color, "color", "C", "auto", `colorize the output; value can be "never", "always" or "auto"`)
+	rootCmd.PersistentFlags().VarP(&ccatCmd.ColorValues, "color-val", "G", `set color value`)
 
 	rootCmd.Execute()
 }
