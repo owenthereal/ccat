@@ -85,6 +85,7 @@ func main() {
 		Example: `$ ccat FILE1 FILE2 ...
   $ ccat --bg=dark FILE1 FILE2 ... # dark background
   $ ccat --color-code String="_darkblue_" --color-code Plaintext="darkred" FILE # set color codes
+  $ ccat --palette # show palette
   $ ccat # read from standard input
   $ curl https://raw.githubusercontent.com/jingweno/ccat/master/main.go | ccat`,
 		Run: ccatCmd.Run,
@@ -98,8 +99,8 @@ Flags:
 {{.LocalFlags.FlagUsages}}
 Using color is auto both by default and with --color=auto. With --color=auto,
 ccat emits color codes only when standard output is connected to a terminal.
-Color codes can be changed with --color-code KEY=VALUE. List of color code is
-available with --palette.
+Color codes can be changed with --color-code KEY=VALUE. List of color codes can
+be found with --palette.
 
 Examples:
   {{ .Example }}`
