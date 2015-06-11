@@ -13,33 +13,40 @@ const (
 )
 
 type ccatCmd struct {
-	BG         string
-	Color      string
-	ColorCodes mapValue
+	BG          string
+	Color       string
+	ColorCodes  mapValue
+	ShowPalette bool
 }
 
 func (c *ccatCmd) Run(cmd *cobra.Command, args []string) {
-	var colorDefs ColorDefs
+	var colorPalettes ColorPalettes
 	if c.BG == "dark" {
-		colorDefs = DarkColorDefs
+		colorPalettes = DarkColorPalettes
 	} else {
-		colorDefs = LightColorDefs
+		colorPalettes = LightColorPalettes
 	}
 
+	// override color codes
 	for k, v := range c.ColorCodes {
-		ok := colorDefs.Set(k, v)
+		ok := colorPalettes.Set(k, v)
 		if !ok {
 			log.Fatal(fmt.Errorf("unknown color code: %s", k))
 		}
 	}
 
+	if c.ShowPalette {
+		fmt.Println(colorPalettes)
+		return
+	}
+
 	var printer CCatPrinter
 	if c.Color == "always" {
-		printer = ColorPrinter{colorDefs}
+		printer = ColorPrinter{colorPalettes}
 	} else if c.Color == "never" {
 		printer = PlainTextPrinter{}
 	} else {
-		printer = AutoColorPrinter{colorDefs}
+		printer = AutoColorPrinter{colorPalettes}
 	}
 
 	// if there's no args, read from stdin
@@ -88,6 +95,7 @@ Examples:
 	rootCmd.PersistentFlags().StringVarP(&ccatCmd.BG, "bg", "", "light", `set to "light" or "dark" depending on the terminal's background`)
 	rootCmd.PersistentFlags().StringVarP(&ccatCmd.Color, "color", "C", "auto", `colorize the output; value can be "never", "always" or "auto"`)
 	rootCmd.PersistentFlags().VarP(&ccatCmd.ColorCodes, "color-code", "G", `set color codes`)
+	rootCmd.PersistentFlags().BoolVarP(&ccatCmd.ShowPalette, "palette", "", false, `show color palettes`)
 
 	rootCmd.Execute()
 }
