@@ -36,7 +36,19 @@ func (c *ccatCmd) Run(cmd *cobra.Command, args []string) {
 	}
 
 	if c.ShowPalette {
-		fmt.Println(colorPalettes)
+		fmt.Printf(`Applied color codes:
+
+%s
+
+Color code is in the format of:
+
+  color       normal color
+  *color*     bold color
+  _color_     underlined color
+  +color+     blinking color
+
+Value of color can be %s
+`, colorPalettes, colorCodes)
 		return
 	}
 
@@ -86,7 +98,8 @@ Flags:
 {{.LocalFlags.FlagUsages}}
 Using color is auto both by default and with --color=auto. With --color=auto,
 ccat emits color codes only when standard output is connected to a terminal.
-Color codes can be changed with --color-code KEY=VALUE.
+Color codes can be changed with --color-code KEY=VALUE. List of color code is
+available with --palette.
 
 Examples:
   {{ .Example }}`

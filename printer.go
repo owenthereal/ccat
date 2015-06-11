@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"io"
+	"strings"
 
 	"github.com/jingweno/ccat/Godeps/_workspace/src/github.com/sourcegraph/syntaxhighlight"
 )
@@ -115,15 +116,13 @@ func (c ColorPalettes) Get(k syntaxhighlight.Kind) string {
 }
 
 func (c ColorPalettes) String() string {
-	s := ""
+	var s []string
 	for _, k := range kinds {
 		color := c[k]
-		s += k.Name + ": "
-		s += Colorize(color, color)
-		s += "\n"
+		s = append(s, fmt.Sprintf("%13s\t%s", k.Name, Colorize(color, color)))
 	}
 
-	return s
+	return strings.Join(s, "\n")
 }
 
 func CPrint(r io.Reader, w io.Writer, palettes ColorPalettes) error {
