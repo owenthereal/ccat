@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/jingweno/ccat/Godeps/_workspace/src/github.com/mattn/go-colorable"
@@ -12,22 +13,30 @@ const (
 )
 
 type ccatCmd struct {
-	BGFlag    string
-	ColorFlag string
+	BG         string
+	Color      string
+	ColorCodes mapValue
 }
 
 func (c *ccatCmd) Run(cmd *cobra.Command, args []string) {
 	var colorDefs ColorDefs
-	if c.BGFlag == "dark" {
+	if c.BG == "dark" {
 		colorDefs = DarkColorDefs
 	} else {
 		colorDefs = LightColorDefs
 	}
 
+	for k, v := range c.ColorCodes {
+		ok := colorDefs.Set(k, v)
+		if !ok {
+			log.Fatal(fmt.Errorf("unknown color code: %s", k))
+		}
+	}
+
 	var printer CCatPrinter
-	if c.ColorFlag == "always" {
+	if c.Color == "always" {
 		printer = ColorPrinter{colorDefs}
-	} else if c.ColorFlag == "never" {
+	} else if c.Color == "never" {
 		printer = PlainTextPrinter{}
 	} else {
 		printer = AutoColorPrinter{colorDefs}
@@ -48,12 +57,15 @@ func (c *ccatCmd) Run(cmd *cobra.Command, args []string) {
 }
 
 func main() {
-	ccatCmd := &ccatCmd{}
+	ccatCmd := &ccatCmd{
+		ColorCodes: make(mapValue),
+	}
 	rootCmd := &cobra.Command{
 		Use:  "ccat [OPTION]... [FILE]...",
 		Long: "Colorize FILE(s), or standard input, to standard output.",
 		Example: `$ ccat FILE1 FILE2 ...
   $ ccat --bg=dark FILE1 FILE2 ... # dark background
+  $ ccat --color-code String="_darkblue_" --color-code Plaintext="darkred" FILE # set color codes
   $ ccat # read from standard input
   $ curl https://raw.githubusercontent.com/jingweno/ccat/master/main.go | ccat`,
 		Run: ccatCmd.Run,
@@ -67,13 +79,15 @@ Flags:
 {{.LocalFlags.FlagUsages}}
 Using color is auto both by default and with --color=auto. With --color=auto,
 ccat emits color codes only when standard output is connected to a terminal.
+Color codes can be changed with --color-code KEY=VALUE.
 
 Examples:
   {{ .Example }}`
 	rootCmd.SetUsageTemplate(usageTempl)
 
-	rootCmd.PersistentFlags().StringVarP(&ccatCmd.BGFlag, "bg", "", "light", `Set to "light" or "dark" depending on the terminal's background`)
-	rootCmd.PersistentFlags().StringVarP(&ccatCmd.ColorFlag, "color", "C", "auto", `colorize the output; value can be "never", "always" or "auto"`)
+	rootCmd.PersistentFlags().StringVarP(&ccatCmd.BG, "bg", "", "light", `set to "light" or "dark" depending on the terminal's background`)
+	rootCmd.PersistentFlags().StringVarP(&ccatCmd.Color, "color", "C", "auto", `colorize the output; value can be "never", "always" or "auto"`)
+	rootCmd.PersistentFlags().VarP(&ccatCmd.ColorCodes, "color-code", "G", `set color codes`)
 
 	rootCmd.Execute()
 }

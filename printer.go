@@ -6,7 +6,31 @@ import (
 	"github.com/jingweno/ccat/Godeps/_workspace/src/github.com/sourcegraph/syntaxhighlight"
 )
 
+var colorDefsMap = map[string]syntaxhighlight.Kind{
+	"String":        syntaxhighlight.String,
+	"Keyword":       syntaxhighlight.Keyword,
+	"Comment":       syntaxhighlight.Comment,
+	"Type":          syntaxhighlight.Type,
+	"Literal":       syntaxhighlight.Literal,
+	"Punctuation":   syntaxhighlight.Punctuation,
+	"Plaintext":     syntaxhighlight.Plaintext,
+	"Tag":           syntaxhighlight.Tag,
+	"HTMLTag":       syntaxhighlight.HTMLTag,
+	"HTMLAttrName":  syntaxhighlight.HTMLAttrName,
+	"HTMLAttrValue": syntaxhighlight.HTMLAttrValue,
+	"Decimal":       syntaxhighlight.Decimal,
+}
+
 type ColorDefs map[syntaxhighlight.Kind]string
+
+func (c ColorDefs) Set(k, v string) bool {
+	kind, ok := colorDefsMap[k]
+	if ok {
+		c[kind] = v
+	}
+
+	return ok
+}
 
 var LightColorDefs = ColorDefs{
 	syntaxhighlight.String:        "brown",
