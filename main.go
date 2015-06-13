@@ -13,33 +13,52 @@ const (
 )
 
 type ccatCmd struct {
-	BG         string
-	Color      string
-	ColorCodes mapValue
+	BG          string
+	Color       string
+	ColorCodes  mapValue
+	ShowPalette bool
 }
 
 func (c *ccatCmd) Run(cmd *cobra.Command, args []string) {
-	var colorDefs ColorDefs
+	var colorPalettes ColorPalettes
 	if c.BG == "dark" {
-		colorDefs = DarkColorDefs
+		colorPalettes = DarkColorPalettes
 	} else {
-		colorDefs = LightColorDefs
+		colorPalettes = LightColorPalettes
 	}
 
+	// override color codes
 	for k, v := range c.ColorCodes {
-		ok := colorDefs.Set(k, v)
+		ok := colorPalettes.Set(k, v)
 		if !ok {
 			log.Fatal(fmt.Errorf("unknown color code: %s", k))
 		}
 	}
 
+	if c.ShowPalette {
+		fmt.Printf(`Applied color codes:
+
+%s
+
+Color code is in the format of:
+
+  color       normal color
+  *color*     bold color
+  _color_     underlined color
+  +color+     blinking color
+
+Value of color can be %s
+`, colorPalettes, colorCodes)
+		return
+	}
+
 	var printer CCatPrinter
 	if c.Color == "always" {
-		printer = ColorPrinter{colorDefs}
+		printer = ColorPrinter{colorPalettes}
 	} else if c.Color == "never" {
 		printer = PlainTextPrinter{}
 	} else {
-		printer = AutoColorPrinter{colorDefs}
+		printer = AutoColorPrinter{colorPalettes}
 	}
 
 	// if there's no args, read from stdin
@@ -66,6 +85,7 @@ func main() {
 		Example: `$ ccat FILE1 FILE2 ...
   $ ccat --bg=dark FILE1 FILE2 ... # dark background
   $ ccat --color-code String="_darkblue_" --color-code Plaintext="darkred" FILE # set color codes
+  $ ccat --palette # show palette
   $ ccat # read from standard input
   $ curl https://raw.githubusercontent.com/jingweno/ccat/master/main.go | ccat`,
 		Run: ccatCmd.Run,
@@ -79,7 +99,8 @@ Flags:
 {{.LocalFlags.FlagUsages}}
 Using color is auto both by default and with --color=auto. With --color=auto,
 ccat emits color codes only when standard output is connected to a terminal.
-Color codes can be changed with --color-code KEY=VALUE.
+Color codes can be changed with --color-code KEY=VALUE. List of color codes can
+be found with --palette.
 
 Examples:
   {{ .Example }}`
@@ -88,6 +109,7 @@ Examples:
 	rootCmd.PersistentFlags().StringVarP(&ccatCmd.BG, "bg", "", "light", `set to "light" or "dark" depending on the terminal's background`)
 	rootCmd.PersistentFlags().StringVarP(&ccatCmd.Color, "color", "C", "auto", `colorize the output; value can be "never", "always" or "auto"`)
 	rootCmd.PersistentFlags().VarP(&ccatCmd.ColorCodes, "color-code", "G", `set color codes`)
+	rootCmd.PersistentFlags().BoolVarP(&ccatCmd.ShowPalette, "palette", "", false, `show color palettes`)
 
 	rootCmd.Execute()
 }

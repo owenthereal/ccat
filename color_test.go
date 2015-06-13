@@ -1,27 +1,23 @@
 package main
 
-import (
-	"testing"
+import "testing"
 
-	"github.com/jingweno/ccat/Godeps/_workspace/src/github.com/sourcegraph/syntaxhighlight"
-)
-
-func Test_ColorDefs_Set(t *testing.T) {
-	defs := ColorDefs{
-		syntaxhighlight.String: "blue",
+func Test_ColorPalette_Set(t *testing.T) {
+	palettes := ColorPalettes{
+		stringKind: "blue",
 	}
 
-	ok := defs.Set("foo", "bar")
+	ok := palettes.Set("foo", "bar")
 	if ok {
 		t.Errorf("setting color code foo should not be ok")
 	}
 
-	ok = defs.Set("String", "baz")
+	ok = palettes.Set("String", "baz")
 	if !ok {
 		t.Errorf("setting color code String should be ok")
 	}
 
-	if defs[syntaxhighlight.String] != "baz" {
+	if palettes[stringKind] != "baz" {
 		t.Errorf("color code of String should be baz")
 	}
 }

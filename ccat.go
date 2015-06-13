@@ -15,23 +15,23 @@ type CCatPrinter interface {
 }
 
 type AutoColorPrinter struct {
-	ColorDefs ColorDefs
+	ColorPalettes ColorPalettes
 }
 
 func (a AutoColorPrinter) Print(r io.Reader, w io.Writer) error {
 	if isatty.IsTerminal(uintptr(syscall.Stdout)) {
-		return ColorPrinter{a.ColorDefs}.Print(r, w)
+		return ColorPrinter{a.ColorPalettes}.Print(r, w)
 	} else {
 		return PlainTextPrinter{}.Print(r, w)
 	}
 }
 
 type ColorPrinter struct {
-	ColorDefs ColorDefs
+	ColorPalettes ColorPalettes
 }
 
 func (c ColorPrinter) Print(r io.Reader, w io.Writer) error {
-	return CPrint(r, w, c.ColorDefs)
+	return CPrint(r, w, c.ColorPalettes)
 }
 
 type PlainTextPrinter struct {

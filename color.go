@@ -3,12 +3,34 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"sort"
 	"strings"
 )
 
 const esc = "\033["
 
-var ColorCodes = map[string]string{
+type ColorCodes map[string]string
+
+func (c ColorCodes) String() string {
+	var cc []string
+	for k, _ := range c {
+		if k == "" {
+			continue
+		}
+
+		cc = append(cc, k)
+	}
+	sort.Strings(cc)
+
+	var s []string
+	for _, ss := range cc {
+		s = append(s, Colorize(ss, ss))
+	}
+
+	return strings.Join(s, ", ")
+}
+
+var colorCodes = ColorCodes{
 	"":          "",
 	"reset":     esc + "39;49;00m",
 	"bold":      esc + "01m",
@@ -43,14 +65,14 @@ func init() {
 	}
 
 	for i, x := 0, 30; i < len(darkColors); i, x = i+1, x+1 {
-		ColorCodes[darkColors[i]] = esc + fmt.Sprintf("%dm", x)
-		ColorCodes[lightColors[i]] = esc + fmt.Sprintf("%d;01m", x)
+		colorCodes[darkColors[i]] = esc + fmt.Sprintf("%dm", x)
+		colorCodes[lightColors[i]] = esc + fmt.Sprintf("%d;01m", x)
 	}
 
-	ColorCodes["darkteal"] = ColorCodes["turquoise"]
-	ColorCodes["darkyellow"] = ColorCodes["brown"]
-	ColorCodes["fuscia"] = ColorCodes["fuchsia"]
-	ColorCodes["white"] = ColorCodes["bold"]
+	colorCodes["darkteal"] = colorCodes["turquoise"]
+	colorCodes["darkyellow"] = colorCodes["brown"]
+	colorCodes["fuscia"] = colorCodes["fuchsia"]
+	colorCodes["white"] = colorCodes["bold"]
 }
 
 /*
@@ -69,26 +91,26 @@ func Colorize(attr, text string) string {
 	result := new(bytes.Buffer)
 
 	if strings.HasPrefix(attr, "+") && strings.HasSuffix(attr, "+") {
-		result.WriteString(ColorCodes["blink"])
+		result.WriteString(colorCodes["blink"])
 		attr = strings.TrimPrefix(attr, "+")
 		attr = strings.TrimSuffix(attr, "+")
 	}
 
 	if strings.HasPrefix(attr, "*") && strings.HasSuffix(attr, "*") {
-		result.WriteString(ColorCodes["bold"])
+		result.WriteString(colorCodes["bold"])
 		attr = strings.TrimPrefix(attr, "*")
 		attr = strings.TrimSuffix(attr, "*")
 	}
 
 	if strings.HasPrefix(attr, "_") && strings.HasSuffix(attr, "_") {
-		result.WriteString(ColorCodes["underline"])
+		result.WriteString(colorCodes["underline"])
 		attr = strings.TrimPrefix(attr, "_")
 		attr = strings.TrimSuffix(attr, "_")
 	}
 
-	result.WriteString(ColorCodes[attr])
+	result.WriteString(colorCodes[attr])
 	result.WriteString(text)
-	result.WriteString(ColorCodes["reset"])
+	result.WriteString(colorCodes["reset"])
 
 	return result.String()
 }
