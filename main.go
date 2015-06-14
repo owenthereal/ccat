@@ -17,9 +17,17 @@ type ccatCmd struct {
 	Color       string
 	ColorCodes  mapValue
 	ShowPalette bool
+	ShowVersion bool
 }
 
 func (c *ccatCmd) Run(cmd *cobra.Command, args []string) {
+	stdout := colorable.NewColorableStdout()
+
+	if c.ShowVersion {
+		displayVersion(stdout)
+		return
+	}
+
 	var colorPalettes ColorPalettes
 	if c.BG == "dark" {
 		colorPalettes = DarkColorPalettes
@@ -66,7 +74,6 @@ Value of color can be %s
 		args = []string{readFromStdin}
 	}
 
-	stdout := colorable.NewColorableStdout()
 	for _, arg := range args {
 		err := CCat(arg, printer, stdout)
 		if err != nil {
@@ -110,6 +117,7 @@ Examples:
 	rootCmd.PersistentFlags().StringVarP(&ccatCmd.Color, "color", "C", "auto", `colorize the output; value can be "never", "always" or "auto"`)
 	rootCmd.PersistentFlags().VarP(&ccatCmd.ColorCodes, "color-code", "G", `set color codes`)
 	rootCmd.PersistentFlags().BoolVarP(&ccatCmd.ShowPalette, "palette", "", false, `show color palettes`)
+	rootCmd.PersistentFlags().BoolVarP(&ccatCmd.ShowVersion, "version", "v", false, `show version`)
 
 	rootCmd.Execute()
 }
