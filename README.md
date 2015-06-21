@@ -47,7 +47,7 @@ $ go get -u github.com/jingweno/ccat
 ```
 $ ccat FILE1 FILE2 ...
 $ ccat --bg=dark FILE1 FILE 2 ... # dark background
-$ ccat --color-code String="_darkblue_" --color-code Plaintext="darkred" FILE # set color codes
+$ ccat -G String="_darkblue_" -G Plaintext="darkred" FILE # set color codes
 $ ccat --palette # show palette
 $ ccat # read from standard input
 $ curl https://raw.githubusercontent.com/jingweno/ccat/master/main.go | ccat
