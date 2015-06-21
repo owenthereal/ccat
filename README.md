@@ -55,7 +55,7 @@ $ curl https://raw.githubusercontent.com/jingweno/ccat/master/main.go | ccat
 
 ## Demo
 
-![ccat demo](https://dl.dropboxusercontent.com/u/1079131/ccat.gif)
+![ccat demo](https://dl.dropboxusercontent.com/u/1079131/ccat_demo.gif)
 
 ## Roadmap
 
