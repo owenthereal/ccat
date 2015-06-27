@@ -53,6 +53,25 @@ $ ccat # read from standard input
 $ curl https://raw.githubusercontent.com/jingweno/ccat/master/main.go | ccat
 ```
 
+It's recommended to alias `ccat` to `cat`:
+
+```
+alias cat=ccat
+```
+
+The overhead of `ccat` comparing to `cat` is mimimum:
+
+```
+$ wc -l main.go
+123 main.go
+$ time cat main.go > /dev/null
+cat main.go > /dev/null  0.00s user 0.00s system 61% cpu 0.005 total
+$ time ccat main.go > /dev/null
+ccat main.go > /dev/null  0.00s user 0.00s system 78% cpu 0.007 total
+```
+
+You can always invoke `cat` after aliasing `ccat` by typing `\cat`.
+
 ## Demo
 
 [![demo](https://asciinema.org/a/21858.png)](https://asciinema.org/a/21858)
