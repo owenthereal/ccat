@@ -44,7 +44,7 @@ func (c *ccatCmd) Run(cmd *cobra.Command, args []string) {
 	}
 
 	if c.ShowPalette {
-		fmt.Printf(`Applied color codes:
+		fmt.Fprintf(stdout, `Applied color codes:
 
 %s
 
