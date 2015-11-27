@@ -16,6 +16,7 @@ type ccatCmd struct {
 	BG          string
 	Color       string
 	ColorCodes  mapValue
+	HTML        bool
 	ShowPalette bool
 	ShowVersion bool
 }
@@ -61,7 +62,9 @@ Value of color can be %s
 	}
 
 	var printer CCatPrinter
-	if c.Color == "always" {
+	if c.HTML {
+		printer = HtmlPrinter{colorPalettes}
+	} else if c.Color == "always" {
 		printer = ColorPrinter{colorPalettes}
 	} else if c.Color == "never" {
 		printer = PlainTextPrinter{}
@@ -91,6 +94,7 @@ func main() {
 		Long: "Colorize FILE(s), or standard input, to standard output.",
 		Example: `$ ccat FILE1 FILE2 ...
   $ ccat --bg=dark FILE1 FILE2 ... # dark background
+  $ ccat --html # output html
   $ ccat -G String="_darkblue_" -G Plaintext="darkred" FILE # set color codes
   $ ccat --palette # show palette
   $ ccat # read from standard input
@@ -116,6 +120,7 @@ Examples:
 	rootCmd.PersistentFlags().StringVarP(&ccatCmd.BG, "bg", "", "light", `set to "light" or "dark" depending on the terminal's background`)
 	rootCmd.PersistentFlags().StringVarP(&ccatCmd.Color, "color", "C", "auto", `colorize the output; value can be "never", "always" or "auto"`)
 	rootCmd.PersistentFlags().VarP(&ccatCmd.ColorCodes, "color-code", "G", `set color codes`)
+	rootCmd.PersistentFlags().BoolVarP(&ccatCmd.HTML, "html", "", false, `output html`)
 	rootCmd.PersistentFlags().BoolVarP(&ccatCmd.ShowPalette, "palette", "", false, `show color palettes`)
 	rootCmd.PersistentFlags().BoolVarP(&ccatCmd.ShowVersion, "version", "v", false, `show version`)
 

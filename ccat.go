@@ -42,6 +42,14 @@ func (p PlainTextPrinter) Print(r io.Reader, w io.Writer) error {
 	return err
 }
 
+type HtmlPrinter struct {
+	ColorPalettes ColorPalettes
+}
+
+func (c HtmlPrinter) Print(r io.Reader, w io.Writer) error {
+	return HtmlPrint(r, w, c.ColorPalettes)
+}
+
 func CCat(fname string, p CCatPrinter, w io.Writer) error {
 	var r io.Reader
 
