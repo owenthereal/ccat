@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"io"
+	"sort"
 	"strings"
 
 	"github.com/jingweno/ccat/Godeps/_workspace/src/github.com/sourcegraph/syntaxhighlight"
@@ -137,6 +138,41 @@ func (p Printer) Print(w io.Writer, kind syntaxhighlight.Kind, tokText string) e
 	c := p.ColorPalettes.Get(kind)
 	if len(c) > 0 {
 		tokText = Colorize(c, tokText)
+	}
+
+	_, err := io.WriteString(w, tokText)
+
+	return err
+}
+
+func HtmlPrint(r io.Reader, w io.Writer, palettes ColorPalettes) error {
+	keys := []string{}
+	for k := range htmlCodes {
+		keys = append(keys, k)
+	}
+	sort.Strings(keys)
+	w.Write([]byte("<style>\n"))
+	for _, s := range keys {
+		if s == "" {
+			continue
+		}
+		w.Write([]byte(fmt.Sprintf(".%s { color: %s; }\n", s, s)))
+	}
+	w.Write([]byte("</style>\n"))
+	w.Write([]byte("<pre>\n"))
+	err := syntaxhighlight.Print(syntaxhighlight.NewScannerReader(r), w, HtmlCodePrinter{palettes})
+	w.Write([]byte("\n</pre>\n"))
+	return err
+}
+
+type HtmlCodePrinter struct {
+	ColorPalettes ColorPalettes
+}
+
+func (p HtmlCodePrinter) Print(w io.Writer, kind syntaxhighlight.Kind, tokText string) error {
+	c := p.ColorPalettes.Get(kind)
+	if len(c) > 0 {
+		tokText = Htmlize(c, tokText)
 	}
 
 	_, err := io.WriteString(w, tokText)
