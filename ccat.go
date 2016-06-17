@@ -8,6 +8,7 @@ import (
 	"syscall"
 
 	"github.com/jingweno/ccat/Godeps/_workspace/src/github.com/mattn/go-isatty"
+	"fmt"
 )
 
 type CCatPrinter interface {
@@ -68,8 +69,18 @@ func CCat(fname string, p CCatPrinter, w io.Writer) error {
 		if err != nil {
 			return err
 		}
+
 		defer file.Close()
-		r = file
+
+		fi, err := file.Stat()
+
+		switch mode := fi.Mode(); {
+		case mode.IsDir():
+			fmt.Println(file.Name() + ": Is a directory")
+			os.Exit(1)
+		case mode.IsRegular():
+			r = file
+		}
 	}
 
 	return p.Print(r, w)
