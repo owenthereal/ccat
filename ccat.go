@@ -8,6 +8,7 @@ import (
 	"syscall"
 
 	"github.com/jingweno/ccat/Godeps/_workspace/src/github.com/mattn/go-isatty"
+	"fmt"
 )
 
 type CCatPrinter interface {
@@ -68,7 +69,18 @@ func CCat(fname string, p CCatPrinter, w io.Writer) error {
 		if err != nil {
 			return err
 		}
+
 		defer file.Close()
+
+		fi, err := file.Stat()
+		if err != nil {
+			return err
+		}
+
+		if fi.Mode().IsDir() {
+			return fmt.Errorf("%s is a directory", file.Name())
+		}
+
 		r = file
 	}
 
