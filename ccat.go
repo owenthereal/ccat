@@ -73,6 +73,9 @@ func CCat(fname string, p CCatPrinter, w io.Writer) error {
 		defer file.Close()
 
 		fi, err := file.Stat()
+		if err != nil {
+			return err
+		}
 
 		if fi.Mode().IsDir() {
 			return fmt.Errorf("%s is a directory", file.Name())
