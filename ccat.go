@@ -74,13 +74,11 @@ func CCat(fname string, p CCatPrinter, w io.Writer) error {
 
 		fi, err := file.Stat()
 
-		switch mode := fi.Mode(); {
-		case mode.IsDir():
-			fmt.Println(file.Name() + ": Is a directory")
-			os.Exit(1)
-		case mode.IsRegular():
-			r = file
+		if fi.Mode().IsDir() {
+			return fmt.Errorf("%s is a directory", file.Name())
 		}
+
+		r = file
 	}
 
 	return p.Print(r, w)
