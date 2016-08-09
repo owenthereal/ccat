@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/jingweno/ccat/Godeps/_workspace/src/github.com/mattn/go-colorable"
-	"github.com/jingweno/ccat/Godeps/_workspace/src/github.com/spf13/cobra"
+	"github.com/mattn/go-colorable"
+	"github.com/spf13/cobra"
 )
 
 const (
