@@ -2,4 +2,4 @@ sudo: false
 language: go
 go:
   - 1.7rc6
-script: ./script/test
+script: ./bin/test
