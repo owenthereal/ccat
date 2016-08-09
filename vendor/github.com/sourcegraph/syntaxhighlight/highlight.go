@@ -11,7 +11,7 @@ import (
 	"unicode"
 	"unicode/utf8"
 
-	"github.com/jingweno/ccat/Godeps/_workspace/src/github.com/sourcegraph/annotate"
+	"github.com/sourcegraph/annotate"
 )
 
 // Kind represents a syntax highlighting kind (class) which will be assigned to tokens.

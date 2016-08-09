@@ -7,8 +7,8 @@ import (
 	"os"
 	"syscall"
 
-	"github.com/jingweno/ccat/Godeps/_workspace/src/github.com/mattn/go-isatty"
 	"fmt"
+	"github.com/mattn/go-isatty"
 )
 
 type CCatPrinter interface {

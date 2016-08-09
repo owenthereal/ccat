@@ -6,7 +6,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/jingweno/ccat/Godeps/_workspace/src/github.com/sourcegraph/syntaxhighlight"
+	"github.com/sourcegraph/syntaxhighlight"
 )
 
 var (
