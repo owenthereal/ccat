@@ -1,0 +1,55 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "40vJyUB4ezQSn/NSadsKEOrudMc=",
+			"path": "github.com/inconshreveable/mousetrap",
+			"revision": "76626ae9c91c4f2a10f34cad8ce83ea42c93bb75",
+			"revisionTime": "2014-10-17T20:07:13Z"
+		},
+		{
+			"checksumSHA1": "ZAlzPBSsaGe/k5pbISRQvSiVhfc=",
+			"path": "github.com/mattn/go-colorable",
+			"revision": "ed8eb9e318d7a84ce5915b495b7d35e0cfe7b5a8",
+			"revisionTime": "2016-07-31T23:54:17Z"
+		},
+		{
+			"checksumSHA1": "xZuhljnmBysJPta/lMyYmJdujCg=",
+			"path": "github.com/mattn/go-isatty",
+			"revision": "66b8e73f3f5cda9f96b69efd03dd3d7fc4a5cdb8",
+			"revisionTime": "2016-08-06T12:27:52Z"
+		},
+		{
+			"checksumSHA1": "hg5j4kdVPNACc4G8nsb1MX/U7KE=",
+			"path": "github.com/sourcegraph/annotate",
+			"revision": "f4cad6c6324d3f584e1743d8b3e0e017a5f3a636",
+			"revisionTime": "2016-01-23T01:39:49Z"
+		},
+		{
+			"checksumSHA1": "PbDf9EFqG68Pk/Q1ManUBKd9FWA=",
+			"path": "github.com/sourcegraph/syntaxhighlight",
+			"revision": "637a8b8b94eca8bb8cd559b950cc4f42629ec137",
+			"revisionTime": "2015-05-12T03:25:41Z"
+		},
+		{
+			"checksumSHA1": "hvkXE4HQ2zgWaCkt3CQTki5hvqc=",
+			"path": "github.com/spf13/cobra",
+			"revision": "7c674d9e72017ed25f6d2b5e497a1368086b6a6f",
+			"revisionTime": "2016-08-02T22:37:37Z"
+		},
+		{
+			"checksumSHA1": "EBZXhJUT52KSJIOmcKG6rus7NtQ=",
+			"path": "github.com/spf13/pflag",
+			"revision": "f676131e2660dc8cd88de99f7486d34aa8172635",
+			"revisionTime": "2016-08-04T14:13:50Z"
+		},
+		{
+			"checksumSHA1": "8fD/im5Kwvy3JgmxulDTambmE8w=",
+			"path": "golang.org/x/sys/unix",
+			"revision": "a646d33e2ee3172a661fc09bca23bb4889a41bc8",
+			"revisionTime": "2016-07-15T05:43:45Z"
+		}
+	],
+	"rootPath": "github.com/jingweno/ccat"
+}

@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"io"
+	"math"
 	"os"
 	"strconv"
 	"strings"
@@ -51,10 +52,20 @@ type consoleScreenBufferInfo struct {
 	maximumWindowSize coord
 }
 
+type consoleCursorInfo struct {
+	size    dword
+	visible int32
+}
+
 var (
 	kernel32                       = syscall.NewLazyDLL("kernel32.dll")
 	procGetConsoleScreenBufferInfo = kernel32.NewProc("GetConsoleScreenBufferInfo")
 	procSetConsoleTextAttribute    = kernel32.NewProc("SetConsoleTextAttribute")
+	procSetConsoleCursorPosition   = kernel32.NewProc("SetConsoleCursorPosition")
+	procFillConsoleOutputCharacter = kernel32.NewProc("FillConsoleOutputCharacterW")
+	procFillConsoleOutputAttribute = kernel32.NewProc("FillConsoleOutputAttribute")
+	procGetConsoleCursorInfo       = kernel32.NewProc("GetConsoleCursorInfo")
+	procSetConsoleCursorInfo       = kernel32.NewProc("SetConsoleCursorInfo")
 )
 
 type Writer struct {
@@ -64,26 +75,27 @@ type Writer struct {
 	oldattr word
 }
 
-func NewColorableStdout() io.Writer {
-	var csbi consoleScreenBufferInfo
-	out := os.Stdout
-	if !isatty.IsTerminal(out.Fd()) {
-		return out
+func NewColorable(file *os.File) io.Writer {
+	if file == nil {
+		panic("nil passed instead of *os.File to NewColorable()")
 	}
-	handle := syscall.Handle(out.Fd())
-	procGetConsoleScreenBufferInfo.Call(uintptr(handle), uintptr(unsafe.Pointer(&csbi)))
-	return &Writer{out: out, handle: handle, oldattr: csbi.attributes}
+
+	if isatty.IsTerminal(file.Fd()) {
+		var csbi consoleScreenBufferInfo
+		handle := syscall.Handle(file.Fd())
+		procGetConsoleScreenBufferInfo.Call(uintptr(handle), uintptr(unsafe.Pointer(&csbi)))
+		return &Writer{out: file, handle: handle, oldattr: csbi.attributes}
+	} else {
+		return file
+	}
+}
+
+func NewColorableStdout() io.Writer {
+	return NewColorable(os.Stdout)
 }
 
 func NewColorableStderr() io.Writer {
-	var csbi consoleScreenBufferInfo
-	out := os.Stderr
-	if !isatty.IsTerminal(out.Fd()) {
-		return out
-	}
-	handle := syscall.Handle(out.Fd())
-	procGetConsoleScreenBufferInfo.Call(uintptr(handle), uintptr(unsafe.Pointer(&csbi)))
-	return &Writer{out: out, handle: handle, oldattr: csbi.attributes}
+	return NewColorable(os.Stderr)
 }
 
 var color256 = map[int]int{
@@ -393,8 +405,125 @@ loop:
 			buf.Write([]byte(string(c)))
 		}
 
+		var csbi consoleScreenBufferInfo
 		switch m {
+		case 'A':
+			n, err = strconv.Atoi(buf.String())
+			if err != nil {
+				continue
+			}
+			procGetConsoleScreenBufferInfo.Call(uintptr(w.handle), uintptr(unsafe.Pointer(&csbi)))
+			csbi.cursorPosition.y -= short(n)
+			procSetConsoleCursorPosition.Call(uintptr(w.handle), *(*uintptr)(unsafe.Pointer(&csbi.cursorPosition)))
+		case 'B':
+			n, err = strconv.Atoi(buf.String())
+			if err != nil {
+				continue
+			}
+			procGetConsoleScreenBufferInfo.Call(uintptr(w.handle), uintptr(unsafe.Pointer(&csbi)))
+			csbi.cursorPosition.y += short(n)
+			procSetConsoleCursorPosition.Call(uintptr(w.handle), *(*uintptr)(unsafe.Pointer(&csbi.cursorPosition)))
+		case 'C':
+			n, err = strconv.Atoi(buf.String())
+			if err != nil {
+				continue
+			}
+			procGetConsoleScreenBufferInfo.Call(uintptr(w.handle), uintptr(unsafe.Pointer(&csbi)))
+			csbi.cursorPosition.x -= short(n)
+			procSetConsoleCursorPosition.Call(uintptr(w.handle), *(*uintptr)(unsafe.Pointer(&csbi.cursorPosition)))
+		case 'D':
+			n, err = strconv.Atoi(buf.String())
+			if err != nil {
+				continue
+			}
+			if n, err = strconv.Atoi(buf.String()); err == nil {
+				var csbi consoleScreenBufferInfo
+				procGetConsoleScreenBufferInfo.Call(uintptr(w.handle), uintptr(unsafe.Pointer(&csbi)))
+				csbi.cursorPosition.x += short(n)
+				procSetConsoleCursorPosition.Call(uintptr(w.handle), *(*uintptr)(unsafe.Pointer(&csbi.cursorPosition)))
+			}
+		case 'E':
+			n, err = strconv.Atoi(buf.String())
+			if err != nil {
+				continue
+			}
+			procGetConsoleScreenBufferInfo.Call(uintptr(w.handle), uintptr(unsafe.Pointer(&csbi)))
+			csbi.cursorPosition.x = 0
+			csbi.cursorPosition.y += short(n)
+			procSetConsoleCursorPosition.Call(uintptr(w.handle), *(*uintptr)(unsafe.Pointer(&csbi.cursorPosition)))
+		case 'F':
+			n, err = strconv.Atoi(buf.String())
+			if err != nil {
+				continue
+			}
+			procGetConsoleScreenBufferInfo.Call(uintptr(w.handle), uintptr(unsafe.Pointer(&csbi)))
+			csbi.cursorPosition.x = 0
+			csbi.cursorPosition.y -= short(n)
+			procSetConsoleCursorPosition.Call(uintptr(w.handle), *(*uintptr)(unsafe.Pointer(&csbi.cursorPosition)))
+		case 'G':
+			n, err = strconv.Atoi(buf.String())
+			if err != nil {
+				continue
+			}
+			procGetConsoleScreenBufferInfo.Call(uintptr(w.handle), uintptr(unsafe.Pointer(&csbi)))
+			csbi.cursorPosition.x = short(n-1)
+			procSetConsoleCursorPosition.Call(uintptr(w.handle), *(*uintptr)(unsafe.Pointer(&csbi.cursorPosition)))
+		case 'H':
+			token := strings.Split(buf.String(), ";")
+			if len(token) != 2 {
+				continue
+			}
+			n1, err := strconv.Atoi(token[0])
+			if err != nil {
+				continue
+			}
+			n2, err := strconv.Atoi(token[1])
+			if err != nil {
+				continue
+			}
+			csbi.cursorPosition.x = short(n2-1)
+			csbi.cursorPosition.y = short(n1-1)
+			procSetConsoleCursorPosition.Call(uintptr(w.handle), *(*uintptr)(unsafe.Pointer(&csbi.cursorPosition)))
+		case 'J':
+			n, err := strconv.Atoi(buf.String())
+			if err != nil {
+				continue
+			}
+			procGetConsoleScreenBufferInfo.Call(uintptr(w.handle), uintptr(unsafe.Pointer(&csbi)))
+			var cursor coord
+			switch n {
+			case 0:
+				cursor = coord{x: csbi.cursorPosition.x, y: csbi.cursorPosition.y}
+			case 1:
+				cursor = coord{x: csbi.window.left, y: csbi.window.top}
+			case 2:
+				cursor = coord{x: csbi.window.left, y: csbi.window.top}
+			}
+			var count, written dword
+			count = dword(csbi.size.x - csbi.cursorPosition.x + (csbi.size.y-csbi.cursorPosition.y)*csbi.size.x)
+			procFillConsoleOutputCharacter.Call(uintptr(w.handle), uintptr(' '), uintptr(count), *(*uintptr)(unsafe.Pointer(&cursor)), uintptr(unsafe.Pointer(&written)))
+			procFillConsoleOutputAttribute.Call(uintptr(w.handle), uintptr(csbi.attributes), uintptr(count), *(*uintptr)(unsafe.Pointer(&cursor)), uintptr(unsafe.Pointer(&written)))
+		case 'K':
+			n, err := strconv.Atoi(buf.String())
+			if err != nil {
+				continue
+			}
+			procGetConsoleScreenBufferInfo.Call(uintptr(w.handle), uintptr(unsafe.Pointer(&csbi)))
+			var cursor coord
+			switch n {
+			case 0:
+				cursor = coord{x: csbi.cursorPosition.x, y: csbi.cursorPosition.y}
+			case 1:
+				cursor = coord{x: csbi.window.left, y: csbi.window.top + csbi.cursorPosition.y}
+			case 2:
+				cursor = coord{x: csbi.window.left, y: csbi.window.top + csbi.cursorPosition.y}
+			}
+			var count, written dword
+			count = dword(csbi.size.x - csbi.cursorPosition.x)
+			procFillConsoleOutputCharacter.Call(uintptr(w.handle), uintptr(' '), uintptr(count), *(*uintptr)(unsafe.Pointer(&cursor)), uintptr(unsafe.Pointer(&written)))
+			procFillConsoleOutputAttribute.Call(uintptr(w.handle), uintptr(csbi.attributes), uintptr(count), *(*uintptr)(unsafe.Pointer(&cursor)), uintptr(unsafe.Pointer(&written)))
 		case 'm':
+			procGetConsoleScreenBufferInfo.Call(uintptr(w.handle), uintptr(unsafe.Pointer(&csbi)))
 			attr := csbi.attributes
 			cs := buf.String()
 			if cs == "" {
@@ -402,7 +531,8 @@ loop:
 				continue
 			}
 			token := strings.Split(cs, ";")
-			for i, ns := range token {
+			for i := 0; i < len(token); i++ {
+				ns := token[i]
 				if n, err = strconv.Atoi(ns); err == nil {
 					switch {
 					case n == 0 || n == 100:
@@ -416,7 +546,7 @@ loop:
 					case n == 27:
 						attr = ((attr & foregroundMask) << 4) | ((attr & backgroundMask) >> 4)
 					case 30 <= n && n <= 37:
-						attr = (attr & backgroundMask)
+						attr &= backgroundMask
 						if (n-30)&1 != 0 {
 							attr |= foregroundRed
 						}
@@ -427,7 +557,7 @@ loop:
 							attr |= foregroundBlue
 						}
 					case n == 38: // set foreground color.
-						if i < len(token)-2 && token[i+1] == "5" {
+						if i < len(token)-2 && (token[i+1] == "5" || token[i+1] == "05") {
 							if n256, err := strconv.Atoi(token[i+2]); err == nil {
 								if n256foreAttr == nil {
 									n256setup()
@@ -443,7 +573,7 @@ loop:
 						attr &= backgroundMask
 						attr |= w.oldattr & foregroundMask
 					case 40 <= n && n <= 47:
-						attr = (attr & foregroundMask)
+						attr &= foregroundMask
 						if (n-40)&1 != 0 {
 							attr |= backgroundRed
 						}
@@ -469,9 +599,49 @@ loop:
 					case n == 49: // reset foreground color.
 						attr &= foregroundMask
 						attr |= w.oldattr & backgroundMask
+					case 90 <= n && n <= 97:
+						attr = (attr & backgroundMask)
+						attr |= foregroundIntensity
+						if (n-90)&1 != 0 {
+							attr |= foregroundRed
+						}
+						if (n-90)&2 != 0 {
+							attr |= foregroundGreen
+						}
+						if (n-90)&4 != 0 {
+							attr |= foregroundBlue
+						}
+					case 100 <= n && n <= 107:
+						attr = (attr & foregroundMask)
+						attr |= backgroundIntensity
+						if (n-100)&1 != 0 {
+							attr |= backgroundRed
+						}
+						if (n-100)&2 != 0 {
+							attr |= backgroundGreen
+						}
+						if (n-100)&4 != 0 {
+							attr |= backgroundBlue
+						}
 					}
 					procSetConsoleTextAttribute.Call(uintptr(w.handle), uintptr(attr))
 				}
+			}
+		case 'h':
+			cs := buf.String()
+			if cs == "?25" {
+				var ci consoleCursorInfo
+				procGetConsoleCursorInfo.Call(uintptr(w.handle), uintptr(unsafe.Pointer(&ci)))
+				ci.visible = 1
+				procSetConsoleCursorInfo.Call(uintptr(w.handle), uintptr(unsafe.Pointer(&ci)))
+			}
+		case 'l':
+			cs := buf.String()
+			if cs == "?25" {
+				var ci consoleCursorInfo
+				procGetConsoleCursorInfo.Call(uintptr(w.handle), uintptr(unsafe.Pointer(&ci)))
+				ci.visible = 0
+				procSetConsoleCursorInfo.Call(uintptr(w.handle), uintptr(unsafe.Pointer(&ci)))
 			}
 		}
 	}
@@ -479,73 +649,11 @@ loop:
 }
 
 type consoleColor struct {
+	rgb       int
 	red       bool
 	green     bool
 	blue      bool
 	intensity bool
-}
-
-func minmax3(a, b, c int) (min, max int) {
-	if a < b {
-		if b < c {
-			return a, c
-		} else if a < c {
-			return a, b
-		} else {
-			return c, b
-		}
-	} else {
-		if a < c {
-			return b, c
-		} else if b < c {
-			return b, a
-		} else {
-			return c, a
-		}
-	}
-}
-
-func toConsoleColor(rgb int) (c consoleColor) {
-	r, g, b := (rgb&0xFF0000)>>16, (rgb&0x00FF00)>>8, rgb&0x0000FF
-	min, max := minmax3(r, g, b)
-	a := (min + max) / 2
-	if r < 128 && g < 128 && b < 128 {
-		if r >= a {
-			c.red = true
-		}
-		if g >= a {
-			c.green = true
-		}
-		if b >= a {
-			c.blue = true
-		}
-		// non-intensed white is lighter than intensed black, so swap those.
-		if c.red && c.green && c.blue {
-			c.red, c.green, c.blue = false, false, false
-			c.intensity = true
-		}
-	} else {
-		if min < 128 {
-			min = 128
-			a = (min + max) / 2
-		}
-		if r >= a {
-			c.red = true
-		}
-		if g >= a {
-			c.green = true
-		}
-		if b >= a {
-			c.blue = true
-		}
-		c.intensity = true
-		// intensed black is darker than non-intensed white, so swap those.
-		if !c.red && !c.green && !c.blue {
-			c.red, c.green, c.blue = true, true, true
-			c.intensity = false
-		}
-	}
-	return c
 }
 
 func (c consoleColor) foregroundAttr() (attr word) {
@@ -580,14 +688,121 @@ func (c consoleColor) backgroundAttr() (attr word) {
 	return
 }
 
+var color16 = []consoleColor{
+	consoleColor{0x000000, false, false, false, false},
+	consoleColor{0x000080, false, false, true, false},
+	consoleColor{0x008000, false, true, false, false},
+	consoleColor{0x008080, false, true, true, false},
+	consoleColor{0x800000, true, false, false, false},
+	consoleColor{0x800080, true, false, true, false},
+	consoleColor{0x808000, true, true, false, false},
+	consoleColor{0xc0c0c0, true, true, true, false},
+	consoleColor{0x808080, false, false, false, true},
+	consoleColor{0x0000ff, false, false, true, true},
+	consoleColor{0x00ff00, false, true, false, true},
+	consoleColor{0x00ffff, false, true, true, true},
+	consoleColor{0xff0000, true, false, false, true},
+	consoleColor{0xff00ff, true, false, true, true},
+	consoleColor{0xffff00, true, true, false, true},
+	consoleColor{0xffffff, true, true, true, true},
+}
+
+type hsv struct {
+	h, s, v float32
+}
+
+func (a hsv) dist(b hsv) float32 {
+	dh := a.h - b.h
+	switch {
+	case dh > 0.5:
+		dh = 1 - dh
+	case dh < -0.5:
+		dh = -1 - dh
+	}
+	ds := a.s - b.s
+	dv := a.v - b.v
+	return float32(math.Sqrt(float64(dh*dh + ds*ds + dv*dv)))
+}
+
+func toHSV(rgb int) hsv {
+	r, g, b := float32((rgb&0xFF0000)>>16)/256.0,
+		float32((rgb&0x00FF00)>>8)/256.0,
+		float32(rgb&0x0000FF)/256.0
+	min, max := minmax3f(r, g, b)
+	h := max - min
+	if h > 0 {
+		if max == r {
+			h = (g - b) / h
+			if h < 0 {
+				h += 6
+			}
+		} else if max == g {
+			h = 2 + (b-r)/h
+		} else {
+			h = 4 + (r-g)/h
+		}
+	}
+	h /= 6.0
+	s := max - min
+	if max != 0 {
+		s /= max
+	}
+	v := max
+	return hsv{h: h, s: s, v: v}
+}
+
+type hsvTable []hsv
+
+func toHSVTable(rgbTable []consoleColor) hsvTable {
+	t := make(hsvTable, len(rgbTable))
+	for i, c := range rgbTable {
+		t[i] = toHSV(c.rgb)
+	}
+	return t
+}
+
+func (t hsvTable) find(rgb int) consoleColor {
+	hsv := toHSV(rgb)
+	n := 7
+	l := float32(5.0)
+	for i, p := range t {
+		d := hsv.dist(p)
+		if d < l {
+			l, n = d, i
+		}
+	}
+	return color16[n]
+}
+
+func minmax3f(a, b, c float32) (min, max float32) {
+	if a < b {
+		if b < c {
+			return a, c
+		} else if a < c {
+			return a, b
+		} else {
+			return c, b
+		}
+	} else {
+		if a < c {
+			return b, c
+		} else if b < c {
+			return b, a
+		} else {
+			return c, a
+		}
+	}
+}
+
 var n256foreAttr []word
 var n256backAttr []word
 
 func n256setup() {
 	n256foreAttr = make([]word, 256)
 	n256backAttr = make([]word, 256)
+	t := toHSVTable(color16)
 	for i, rgb := range color256 {
-		c := toConsoleColor(rgb)
+		c := t.find(rgb)
 		n256foreAttr[i] = c.foregroundAttr()
 		n256backAttr[i] = c.backgroundAttr()
 	}
