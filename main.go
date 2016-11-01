@@ -114,7 +114,8 @@ Color codes can be changed with -G KEY=VALUE. List of color codes can
 be found with --palette.
 
 Examples:
-  {{ .Example }}`
+  {{ .Example }}
+`
 	rootCmd.SetUsageTemplate(usageTempl)
 
 	rootCmd.PersistentFlags().StringVarP(&ccatCmd.BG, "bg", "", "light", `set to "light" or "dark" depending on the terminal's background`)
