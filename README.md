@@ -1,4 +1,6 @@
 # ccat
+[![OpenCollective](https://opencollective.com/ccat/backers/badge.svg)](#backers) 
+[![OpenCollective](https://opencollective.com/ccat/sponsors/badge.svg)](#sponsors)
 
 `ccat` is the colorizing `cat`. It works similar to `cat` but displays content with syntax highlighting.
 
@@ -98,3 +100,74 @@ Use them at your own risk :):
 ## Credits
 
 Thanks to [Sourcegraph](https://github.com/sourcegraph) who built [this](https://github.com/sourcegraph/syntaxhighlight) awesome syntax-highlighting package.
+
+## Support
+
+### Backers
+Support us with a monthly donation and help us continue our activities. [[Become a backer](https://opencollective.com/ccat#backer)]
+
+<a href="https://opencollective.com/ccat/backer/0/website" target="_blank"><img src="https://opencollective.com/ccat/backer/0/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/backer/1/website" target="_blank"><img src="https://opencollective.com/ccat/backer/1/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/backer/2/website" target="_blank"><img src="https://opencollective.com/ccat/backer/2/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/backer/3/website" target="_blank"><img src="https://opencollective.com/ccat/backer/3/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/backer/4/website" target="_blank"><img src="https://opencollective.com/ccat/backer/4/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/backer/5/website" target="_blank"><img src="https://opencollective.com/ccat/backer/5/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/backer/6/website" target="_blank"><img src="https://opencollective.com/ccat/backer/6/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/backer/7/website" target="_blank"><img src="https://opencollective.com/ccat/backer/7/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/backer/8/website" target="_blank"><img src="https://opencollective.com/ccat/backer/8/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/backer/9/website" target="_blank"><img src="https://opencollective.com/ccat/backer/9/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/backer/10/website" target="_blank"><img src="https://opencollective.com/ccat/backer/10/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/backer/11/website" target="_blank"><img src="https://opencollective.com/ccat/backer/11/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/backer/12/website" target="_blank"><img src="https://opencollective.com/ccat/backer/12/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/backer/13/website" target="_blank"><img src="https://opencollective.com/ccat/backer/13/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/backer/14/website" target="_blank"><img src="https://opencollective.com/ccat/backer/14/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/backer/15/website" target="_blank"><img src="https://opencollective.com/ccat/backer/15/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/backer/16/website" target="_blank"><img src="https://opencollective.com/ccat/backer/16/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/backer/17/website" target="_blank"><img src="https://opencollective.com/ccat/backer/17/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/backer/18/website" target="_blank"><img src="https://opencollective.com/ccat/backer/18/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/backer/19/website" target="_blank"><img src="https://opencollective.com/ccat/backer/19/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/backer/20/website" target="_blank"><img src="https://opencollective.com/ccat/backer/20/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/backer/21/website" target="_blank"><img src="https://opencollective.com/ccat/backer/21/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/backer/22/website" target="_blank"><img src="https://opencollective.com/ccat/backer/22/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/backer/23/website" target="_blank"><img src="https://opencollective.com/ccat/backer/23/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/backer/24/website" target="_blank"><img src="https://opencollective.com/ccat/backer/24/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/backer/25/website" target="_blank"><img src="https://opencollective.com/ccat/backer/25/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/backer/26/website" target="_blank"><img src="https://opencollective.com/ccat/backer/26/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/backer/27/website" target="_blank"><img src="https://opencollective.com/ccat/backer/27/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/backer/28/website" target="_blank"><img src="https://opencollective.com/ccat/backer/28/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/backer/29/website" target="_blank"><img src="https://opencollective.com/ccat/backer/29/avatar.svg"></a>
+
+
+### Sponsors
+Become a sponsor and get your logo on our README on Github with a link to your site. [[Become a sponsor](https://opencollective.com/ccat#sponsor)]
+
+<a href="https://opencollective.com/ccat/sponsor/0/website" target="_blank"><img src="https://opencollective.com/ccat/sponsor/0/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/sponsor/1/website" target="_blank"><img src="https://opencollective.com/ccat/sponsor/1/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/sponsor/2/website" target="_blank"><img src="https://opencollective.com/ccat/sponsor/2/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/sponsor/3/website" target="_blank"><img src="https://opencollective.com/ccat/sponsor/3/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/sponsor/4/website" target="_blank"><img src="https://opencollective.com/ccat/sponsor/4/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/sponsor/5/website" target="_blank"><img src="https://opencollective.com/ccat/sponsor/5/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/sponsor/6/website" target="_blank"><img src="https://opencollective.com/ccat/sponsor/6/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/sponsor/7/website" target="_blank"><img src="https://opencollective.com/ccat/sponsor/7/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/sponsor/8/website" target="_blank"><img src="https://opencollective.com/ccat/sponsor/8/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/sponsor/9/website" target="_blank"><img src="https://opencollective.com/ccat/sponsor/9/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/sponsor/10/website" target="_blank"><img src="https://opencollective.com/ccat/sponsor/10/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/sponsor/11/website" target="_blank"><img src="https://opencollective.com/ccat/sponsor/11/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/sponsor/12/website" target="_blank"><img src="https://opencollective.com/ccat/sponsor/12/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/sponsor/13/website" target="_blank"><img src="https://opencollective.com/ccat/sponsor/13/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/sponsor/14/website" target="_blank"><img src="https://opencollective.com/ccat/sponsor/14/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/sponsor/15/website" target="_blank"><img src="https://opencollective.com/ccat/sponsor/15/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/sponsor/16/website" target="_blank"><img src="https://opencollective.com/ccat/sponsor/16/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/sponsor/17/website" target="_blank"><img src="https://opencollective.com/ccat/sponsor/17/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/sponsor/18/website" target="_blank"><img src="https://opencollective.com/ccat/sponsor/18/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/sponsor/19/website" target="_blank"><img src="https://opencollective.com/ccat/sponsor/19/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/sponsor/20/website" target="_blank"><img src="https://opencollective.com/ccat/sponsor/20/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/sponsor/21/website" target="_blank"><img src="https://opencollective.com/ccat/sponsor/21/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/sponsor/22/website" target="_blank"><img src="https://opencollective.com/ccat/sponsor/22/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/sponsor/23/website" target="_blank"><img src="https://opencollective.com/ccat/sponsor/23/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/sponsor/24/website" target="_blank"><img src="https://opencollective.com/ccat/sponsor/24/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/sponsor/25/website" target="_blank"><img src="https://opencollective.com/ccat/sponsor/25/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/sponsor/26/website" target="_blank"><img src="https://opencollective.com/ccat/sponsor/26/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/sponsor/27/website" target="_blank"><img src="https://opencollective.com/ccat/sponsor/27/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/sponsor/28/website" target="_blank"><img src="https://opencollective.com/ccat/sponsor/28/avatar.svg"></a>
+<a href="https://opencollective.com/ccat/sponsor/29/website" target="_blank"><img src="https://opencollective.com/ccat/sponsor/29/avatar.svg"></a>
