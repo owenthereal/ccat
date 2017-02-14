@@ -19,6 +19,7 @@ type ccatCmd struct {
 	HTML        bool
 	ShowPalette bool
 	ShowVersion bool
+	Size        int
 }
 
 func (c *ccatCmd) Run(cmd *cobra.Command, args []string) {
@@ -78,7 +79,7 @@ Value of color can be %s
 	}
 
 	for _, arg := range args {
-		err := CCat(arg, printer, stdout)
+		err := CCat(arg, printer, stdout, c.Size)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -98,7 +99,8 @@ func main() {
   $ ccat -G String="_darkblue_" -G Plaintext="darkred" FILE # set color codes
   $ ccat --palette # show palette
   $ ccat # read from standard input
-  $ curl https://raw.githubusercontent.com/jingweno/ccat/master/main.go | ccat`,
+  $ curl https://raw.githubusercontent.com/jingweno/ccat/master/main.go | ccat
+`,
 		Run: ccatCmd.Run,
 	}
 
@@ -114,8 +116,7 @@ Color codes can be changed with -G KEY=VALUE. List of color codes can
 be found with --palette.
 
 Examples:
-  {{ .Example }}
-`
+  {{ .Example }}`
 	rootCmd.SetUsageTemplate(usageTempl)
 
 	rootCmd.PersistentFlags().StringVarP(&ccatCmd.BG, "bg", "", "light", `set to "light" or "dark" depending on the terminal's background`)
@@ -124,6 +125,7 @@ Examples:
 	rootCmd.PersistentFlags().BoolVarP(&ccatCmd.HTML, "html", "", false, `output html`)
 	rootCmd.PersistentFlags().BoolVarP(&ccatCmd.ShowPalette, "palette", "", false, `show color palettes`)
 	rootCmd.PersistentFlags().BoolVarP(&ccatCmd.ShowVersion, "version", "v", false, `show version`)
+	rootCmd.PersistentFlags().IntVarP(&ccatCmd.Size, "size", "S", 1048576, `return error when read data or file size grater than size bytes`)
 
 	rootCmd.Execute()
 }
