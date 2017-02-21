@@ -60,7 +60,7 @@ func CCat(fname string, p CCatPrinter, w io.Writer, s int) error {
 		// if the io.Reader is os.Stdin
 		// see https://github.com/golang/go/issues/10735
 		b, err := ioutil.ReadAll(os.Stdin)
-		if len(b) > s {
+		if s > 0 && len(b) > s {
 			return errors.New(fmt.Sprintf("read size is greater than %d bytes\n", s))
 		}
 		if err != nil {
@@ -69,7 +69,7 @@ func CCat(fname string, p CCatPrinter, w io.Writer, s int) error {
 
 		r = bytes.NewReader(b)
 	} else {
-		if fstat, _ := os.Stat(fname); fstat.Size() > int64(s) {
+		if fstat, _ := os.Stat(fname); s > 0 && fstat.Size() > int64(s) {
 			return errors.New(fmt.Sprintf("file size is greater than %d bytes\n", s))
 		}
 		file, err := os.Open(fname)

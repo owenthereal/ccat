@@ -125,7 +125,7 @@ Examples:
 	rootCmd.PersistentFlags().BoolVarP(&ccatCmd.HTML, "html", "", false, `output html`)
 	rootCmd.PersistentFlags().BoolVarP(&ccatCmd.ShowPalette, "palette", "", false, `show color palettes`)
 	rootCmd.PersistentFlags().BoolVarP(&ccatCmd.ShowVersion, "version", "v", false, `show version`)
-	rootCmd.PersistentFlags().IntVarP(&ccatCmd.Size, "size", "S", 1048576, `return error when read data or file size grater than size bytes`)
+	rootCmd.PersistentFlags().IntVarP(&ccatCmd.Size, "size", "S", 0, `return error if read data or file size is greater than size bytes(default 0, no limit)`)
 
 	rootCmd.Execute()
 }
