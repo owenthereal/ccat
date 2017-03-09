@@ -12,6 +12,7 @@
 * Python
 * Go
 * C
+* JSON
 
 ## Installation
 
