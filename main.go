@@ -86,6 +86,7 @@ Value of color can be %s
 }
 
 func main() {
+	log.SetFlags(0)
 	ccatCmd := &ccatCmd{
 		ColorCodes: make(mapValue),
 	}
