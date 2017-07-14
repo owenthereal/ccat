@@ -6,6 +6,7 @@ package syntaxhighlight
 import (
 	"bytes"
 	"io"
+	"strings"
 	"text/scanner"
 	"text/template"
 	"unicode"
@@ -18,6 +19,7 @@ import (
 // A syntax highlighting scheme (style) maps text style properties to each token kind.
 type Kind uint8
 
+// A set of supported highlighting kinds
 const (
 	Whitespace Kind = iota
 	String
@@ -36,6 +38,8 @@ const (
 
 //go:generate gostringer -type=Kind
 
+// Printer implements an interface to render highlighted output
+// (see HTMLPrinter for the implementation of this interface)
 type Printer interface {
 	Print(w io.Writer, kind Kind, tokText string) error
 }
@@ -56,8 +60,12 @@ type HTMLConfig struct {
 	HTMLAttrValue string
 	Decimal       string
 	Whitespace    string
+
+	AsOrderedList bool
 }
 
+// HTMLPrinter implements Printer interface and is used to produce
+// HTML-based highligher
 type HTMLPrinter HTMLConfig
 
 // Class returns the set class for a given token Kind.
@@ -91,7 +99,22 @@ func (c HTMLConfig) Class(kind Kind) string {
 	return ""
 }
 
+// Print is the function that emits highlighted source code using
+// <span class="...">...</span> wrapper tags
 func (p HTMLPrinter) Print(w io.Writer, kind Kind, tokText string) error {
+	if p.AsOrderedList {
+		if i := strings.Index(tokText, "\n"); i > -1 {
+			if err := p.Print(w, kind, tokText[:i]); err != nil {
+				return err
+			}
+			w.Write([]byte("</li>\n<li>"))
+			if err := p.Print(w, kind, tokText[i+1:]); err != nil {
+				return err
+			}
+			return nil
+		}
+	}
+
 	class := ((HTMLConfig)(p)).Class(kind)
 	if class != "" {
 		_, err := w.Write([]byte(`<span class="`))
@@ -137,7 +160,22 @@ func (a HTMLAnnotator) Annotate(start int, kind Kind, tokText string) (*annotate
 	return nil, nil
 }
 
-// DefaultHTMLConfig's class names match those of google-code-prettify
+// Option is a type of the function that can modify
+// one or more of the options in the HTMLConfig structure.
+type Option func(options *HTMLConfig)
+
+// OrderedList allows you to format the output as an ordered list
+// to have line numbers in the output.
+//
+// Example:
+// AsHTML(input, OrderedList())
+func OrderedList() Option {
+	return func(o *HTMLConfig) {
+		o.AsOrderedList = true
+	}
+}
+
+// DefaultHTMLConfig provides class names that match those of google-code-prettify
 // (https://code.google.com/p/google-code-prettify/).
 var DefaultHTMLConfig = HTMLConfig{
 	String:        "str",
@@ -195,9 +233,23 @@ func Annotate(src []byte, a Annotator) (annotate.Annotations, error) {
 	return anns, nil
 }
 
-func AsHTML(src []byte) ([]byte, error) {
+// AsHTML converts source code into an HTML-highlighted version;
+// It accepts optional configuration parameters to control rendering
+// (see OrderedList as one example)
+func AsHTML(src []byte, options ...Option) ([]byte, error) {
+	opt := DefaultHTMLConfig
+	for _, f := range options {
+		f(&opt)
+	}
+
 	var buf bytes.Buffer
-	err := Print(NewScanner(src), &buf, HTMLPrinter(DefaultHTMLConfig))
+	if opt.AsOrderedList {
+		buf.Write([]byte("<ol>\n<li>"))
+	}
+	err := Print(NewScanner(src), &buf, HTMLPrinter(opt))
+	if opt.AsOrderedList {
+		buf.Write([]byte("</li>\n</ol>"))
+	}
 	if err != nil {
 		return nil, err
 	}

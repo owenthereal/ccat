@@ -14,10 +14,13 @@ The main [`AsHTML(src []byte) ([]byte, error)`](https://sourcegraph.com/sourcegr
 ```
 go get -u github.com/sourcegraph/syntaxhighlight
 ```
+First you should install the golang evironment, you can download it [here](https://golang.org/dl) or you can follow the [getting started](https://golang.org/doc/install)
+
+Remember you should set the environment variables correctly (GOPATH and PATH)
 
 ## Example usage
 
-The function [`AsHTML(src []byte) ([]byte, error)`](https://sourcegraph.com/sourcegraph.com/sourcegraph/syntaxhighlight@master/.GoPackage/sourcegraph.com/sourcegraph/syntaxhighlight/.def/AsHTML) returns an HTML-highlighted version of `src`. The input source code can be in any language; the lexer is language independent.
+The function [`AsHTML(src []byte, options ...Option) ([]byte, error)`](https://sourcegraph.com/sourcegraph.com/sourcegraph/syntaxhighlight@master/.GoPackage/sourcegraph.com/sourcegraph/syntaxhighlight/.def/AsHTML) returns an HTML-highlighted version of `src`. The input source code can be in any language; the lexer is language independent. An `OrderedList()` option can be passed to produce an `<ol>...</ol>`-wrapped list to display line numbers.
 
 ```go
 package syntaxhighlight_test

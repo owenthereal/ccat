@@ -27,10 +27,10 @@
 			"revisionTime": "2016-01-23T01:39:49Z"
 		},
 		{
-			"checksumSHA1": "PbDf9EFqG68Pk/Q1ManUBKd9FWA=",
+			"checksumSHA1": "XoUO4WpqMYyhT8Qb1BpOE1HdN8Q=",
 			"path": "github.com/sourcegraph/syntaxhighlight",
-			"revision": "637a8b8b94eca8bb8cd559b950cc4f42629ec137",
-			"revisionTime": "2015-05-12T03:25:41Z"
+			"revision": "bd320f5d308e1a3c4314c678d8227a0d72574ae7",
+			"revisionTime": "2017-05-31T22:18:38Z"
 		},
 		{
 			"checksumSHA1": "hvkXE4HQ2zgWaCkt3CQTki5hvqc=",
