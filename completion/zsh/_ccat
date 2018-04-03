@@ -1,0 +1,15 @@
+#compdef ccat
+
+local -a args
+
+args=(
+  '(--bg)'--bg"[Set to light or dark depending on the terminal's background]"
+  '(-C --color)'{-C,--color}'[Colorize the output; value can be "never", "always" or "auto"]'
+  '(-G --color-code=)'{-G,--color-code}'[Set color codes]'
+  '(-h --help)'{-h,--help}'[Help for ccat]'
+  '(--html)'--html'[Output HTML]'
+  '(--palette)'--palette'[Show color palettes]'
+  '(-v --version)'{-v,--version}'[Show version]'
+)
+
+_arguments -s -S $args

@@ -16,6 +16,8 @@
 
 ## Installation
 
+### Command
+
 ### OSX
 
 ```
@@ -44,6 +46,13 @@ Prerequisites:
 ```
 $ go get -u github.com/jingweno/ccat
 ```
+
+## Completion (ZSH Only)
+
+### Installation
+Move the `_ccat` file in `./completions/zsh` to your site-functions directory usually in `/usr/local/share/zsh/site-functions` or in `/usr/share/zsh/site-functions`. If completions don't work on the next ZSH startup, you can delete the file `.zcompdump` (which caches autocomplete commands) and it is usually in the home directory.
+### Uninstallation
+Go back to the directory you copied `_ccat` to and delete the file, then simply delete `.zcompdump` in order to stop errors when trying to use `ccat` autocomplete afterwards.
 
 ## Usage
 
