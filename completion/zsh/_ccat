@@ -7,9 +7,10 @@ args=(
   '(-C --color)'{-C,--color}'[Colorize the output; value can be "never", "always" or "auto"]'
   '(-G --color-code=)'{-G,--color-code}'[Set color codes]'
   '(-h --help)'{-h,--help}'[Help for ccat]'
-  '(--html)'--html'[Output HTML]'
+  '(--html)'--html'[Output file as HTML]'
   '(--palette)'--palette'[Show color palettes]'
   '(-v --version)'{-v,--version}'[Show version]'
+  '*:filename:_files'
 )
 
 _arguments -s -S $args
