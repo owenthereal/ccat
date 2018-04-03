@@ -16,8 +16,6 @@
 
 ## Installation
 
-### Command
-
 ### OSX
 
 ```
