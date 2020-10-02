@@ -33,7 +33,7 @@ The ccat package will reflect the current release snapshot, while the ccat-git w
 ### Standalone
 
 `ccat` can be easily installed as an executable.
-Download the latest [compiled binaries](https://github.com/jingweno/ccat/releases) and put it in your executable path.
+Download the latest [compiled binaries](https://github.com/owenthereal/ccat/releases) and put it in your executable path.
 
 ### From source
 
