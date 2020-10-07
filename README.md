@@ -42,7 +42,7 @@ Prerequisites:
 - [Go](https://golang.org/doc/install) 1.4+
 
 ```
-$ go get -u github.com/jingweno/ccat
+$ go get -u github.com/owenthereal/ccat
 ```
 
 ## Completion (ZSH Only)
@@ -61,7 +61,7 @@ $ ccat --bg=dark FILE1 FILE 2 ... # dark background
 $ ccat -G String="_darkblue_" -G Plaintext="darkred" FILE # set color codes
 $ ccat --palette # show palette
 $ ccat # read from standard input
-$ curl https://raw.githubusercontent.com/jingweno/ccat/master/main.go | ccat
+$ curl https://raw.githubusercontent.com/owenthereal/ccat/master/main.go | ccat
 ```
 
 It's recommended to alias `ccat` to `cat`:
@@ -103,7 +103,7 @@ Use them at your own risk :):
 
 ## License
 
-[MIT](https://github.com/jingweno/ccat/blob/master/LICENSE)
+[MIT](https://github.com/owenthereal/ccat/blob/master/LICENSE)
 
 ## Credits
 
