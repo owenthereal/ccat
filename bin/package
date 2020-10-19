@@ -31,7 +31,7 @@ compress() {
   ls -all
 }
 
-OSARCH="darwin/amd64 linux/amd64 linux/386 windows/amd64 windows/386"
+OSARCH="darwin/amd64 linux/amd64 linux/386 linux/ppc64le windows/amd64 windows/386"
 
 echo "Packaging ccat $(version)"
 echo
