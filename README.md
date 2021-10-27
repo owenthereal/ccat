@@ -100,6 +100,7 @@ Use them at your own risk :):
 
 * [pygments](http://pygments.org/)
 * [source-highlight](https://www.gnu.org/software/src-highlite/)
+* [bat](https://github.com/sharkdp/bat)
 
 ## License
 
