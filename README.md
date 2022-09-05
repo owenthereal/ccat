@@ -42,7 +42,7 @@ Prerequisites:
 - [Go](https://golang.org/doc/install) 1.4+
 
 ```
-$ go get -u github.com/owenthereal/ccat
+$ go install github.com/owenthereal/ccat@latest
 ```
 
 ## Completion (ZSH Only)
